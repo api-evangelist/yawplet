@@ -1,0 +1,21 @@
+generated: '2026-09-26'
+method: searched
+source:
+- https://yawplet.com/openapi.yml
+- https://yawplet.com/policy/
+- https://yawplet.com/terms/
+versioning:
+  scheme: url-path major (/v1) + contract info.version 0.1.0
+  policy_versioning: The content policy is versioned (Version 2026.09.25-1); the version in force when a post is
+    moderated applies.
+  price_changes: Price changes are announced on the pricing page before they apply; they never apply to a post already
+    queued.
+deprecation:
+  policy: null
+  headers: null
+  deprecated_operations: []
+  note: No deprecation or sunset policy published; no operation marked deprecated in the contract.
+status_page: null
+sla: null
+note: No status page (https://yawplet.com/status 404, 2026-09-26). Terms and privacy are marked "Draft — pending
+  legal review".

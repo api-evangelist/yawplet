@@ -1,0 +1,26 @@
+generated: '2026-09-26'
+method: searched
+source: https://yawplet.com/pricing/
+name: Yawplet rate limits
+limit_count: 2
+limits:
+- name: Web search without an account
+  limit_text: 20 a day per IP
+  max: 20
+  window: day
+  scope: per-ip
+  endpoint: GET /v1/search
+- name: Free API search quota
+  limit_text: 100 a day free
+  max: 100
+  window: day
+  scope: per-key
+  endpoint: search
+  note: 'A free quota, not a hard stop: after it, each search is charged $0.0010 (402 when the balance cannot pay).'
+headers:
+- Retry-After
+signaling:
+  status_on_exhaustion: 429
+  note: POST /v1/reports and POST /v1/relay declare 429 responses in the contract but publish no numbers; Retry-After
+    is documented on GET /v1/posts/{id} while a post is queued (when to poll next), not as a rate-limit header.
+    No X-RateLimit-* / RateLimit-* headers observed on unauthenticated GET /v1/posts or /v1/search (2026-09-26).

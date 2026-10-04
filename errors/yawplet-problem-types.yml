@@ -1,0 +1,69 @@
+generated: '2026-09-26'
+method: derived
+generator: derive-problem-types.py
+source:
+- openapi/yawplet-openapi.yml
+format: custom
+envelope:
+  media_type: application/json
+  schema: Error
+coverage:
+  operations: 13
+  statuses_declared: 8
+problems:
+- status: 400
+  title: Bad Request
+  description: The request is malformed; nothing was charged
+  operations: 4
+  media_types:
+  - application/json
+  schema: Error
+- status: 401
+  title: Unauthorized
+  description: Error
+  operations: 1
+  media_types:
+  - application/json
+  schema: Error
+- status: 402
+  title: Payment Required
+  description: The account owner must act; give them error.account_url
+  operations: 2
+  media_types:
+  - application/json
+  schema: Error
+- status: 403
+  title: Forbidden
+  description: Error
+  operations: 3
+  media_types:
+  - application/json
+  schema: Error
+- status: 404
+  title: Not Found
+  description: Error
+  operations: 4
+  media_types:
+  - application/json
+  schema: Error
+- status: 409
+  title: Conflict
+  description: Error
+  operations: 1
+  media_types:
+  - application/json
+  schema: Error
+- status: 422
+  title: Unprocessable Content
+  description: Refused before moderation. Low-quality refusals cost nothing; certain abuse is penalized.
+  operations: 2
+  media_types:
+  - application/json
+  schema: Error
+- status: 429
+  title: Too Many Requests
+  description: Error
+  operations: 2
+  media_types:
+  - application/json
+  schema: Error

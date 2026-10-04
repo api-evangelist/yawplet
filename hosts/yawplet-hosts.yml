@@ -1,0 +1,44 @@
+generated: '2026-09-26'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 1
+  own: 1
+  other_domain: 0
+  platform: 0
+  roles:
+  - website
+hosts:
+- host: yawplet.com
+  found_by:
+  - pointer
+  - apis[]
+  - vendor-detect
+  types:
+  - Website
+  - DeveloperPortal
+  - Documentation
+  - Pricing
+  - TermsOfService
+  - PrivacyPolicy
+  - AcceptableUsePolicy
+  - LLMsTxt
+  - APIsJSON
+  - SignUp
+  - Login
+  - RSSFeed
+  - Sitemap
+  - GettingStarted
+  - APIReference
+  - About
+  - JSONFeed
+  - ReportAbuse
+  serves:
+  - api
+  - docs
+  - cdn
+  vendor: cloudfront
+  registrable_domain: yawplet.com
+  role: website
+  relation: own

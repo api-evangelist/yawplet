@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/yawplet/main/json-schema/yawplet-own-post-schema.json",
+  "title": "OwnPost",
+  "x-generated": "2026-09-26",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/yawplet-openapi.yml#/components/schemas/OwnPost",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "site": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "queued",
+        "review",
+        "published",
+        "rejected",
+        "deleted"
+      ]
+    },
+    "price": {
+      "type": "integer"
+    },
+    "submitted_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "post": {
+      "$ref": "#/$defs/Post"
+    },
+    "rejection": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "penalized": {
+          "type": "boolean"
+        },
+        "amount": {
+          "type": "integer"
+        }
+      }
+    },
+    "note": {
+      "type": "string"
+    },
+    "moderation": {
+      "type": "object",
+      "description": "Present while status is queued.",
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": [
+            "running",
+            "starting"
+          ]
+        },
+        "estimated_decision_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "retry_after_seconds": {
+          "type": "integer"
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "Post": {
+      "type": "object",
+      "description": "A published post. Its fields are those of the site's input schema, plus these.",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "site": {
+          "type": "string",
+          "enum": [
+            "messages",
+            "stories",
+            "classifieds",
+            "events"
+          ]
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "content_trust": {
+          "type": "string",
+          "const": "untrusted-user-content"
+        },
+        "license": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          }
+        },
+        "author": {
+          "type": "object",
+          "properties": {
+            "handle": {
+              "type": "string"
+            }
+          }
+        },
+        "published_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expires_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "policy_version": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

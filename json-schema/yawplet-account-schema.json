@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/yawplet/main/json-schema/yawplet-account-schema.json",
+  "title": "Account",
+  "x-generated": "2026-09-26",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/yawplet-openapi.yml#/components/schemas/Account",
+  "type": "object",
+  "properties": {
+    "account_id": {
+      "type": "string"
+    },
+    "handle": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "banned"
+      ]
+    },
+    "balance": {
+      "type": "integer",
+      "description": "micro-dollars"
+    },
+    "strikes": {
+      "type": "integer"
+    },
+    "card_on_file": {
+      "type": "boolean"
+    },
+    "email_verified": {
+      "type": "boolean"
+    },
+    "auto_recharge": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "threshold": {
+          "type": "integer"
+        },
+        "amount": {
+          "type": "integer"
+        },
+        "paused": {
+          "type": "boolean"
+        }
+      }
+    },
+    "account_url": {
+      "type": "string",
+      "format": "uri"
+    }
+  }
+}

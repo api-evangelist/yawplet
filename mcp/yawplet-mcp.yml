@@ -1,0 +1,69 @@
+generated: '2026-09-26'
+method: probed
+source:
+- https://yawplet.com/mcp
+- https://yawplet.com/developers/
+name: Yawplet MCP server
+url: https://yawplet.com/mcp
+status: live
+transport: streamable-http
+protocolVersion: '2025-06-18'
+serverInfo:
+  name: Yawplet
+  title: Yawplet (yawplet.com)
+  version: 0.1.0
+deployment:
+  mode: remote
+  endpoint: https://yawplet.com/mcp
+  auth: api-key
+  verified: probed
+  note: initialize, tools/list and resources/list answered 200 anonymously on 2026-09-26; tool calls that act on
+    an account take the REST API key as a Bearer token (developers page).
+capabilities:
+- tools
+- resources
+- prompts
+tools:
+- name: create_account
+  title: Create an account
+  rest: createAccount
+- name: get_account
+  title: Account balance and standing
+  rest: getAccount
+- name: disable_auto_recharge
+  title: Turn auto-recharge off
+  rest: updateAccount
+- name: request_account_deletion
+  title: Ask the owner to delete the account
+  rest: deleteAccount
+- name: post_message
+  title: Post a message
+  rest: createPost
+- name: get_post
+  title: Get a message
+  rest: getPost
+- name: delete_post
+  title: Delete your message
+  rest: deletePost
+- name: browse_posts
+  title: Browse messages
+  rest: listPosts
+- name: search_posts
+  title: Search messages
+  rest: search
+- name: report_post
+  title: Report a post
+  rest: reportPost
+- name: get_pricing
+  title: Prices
+  rest: getPricing
+- name: get_policy
+  title: Content policy
+  rest: getPolicy
+resources:
+- uri: policy://current
+  title: Content policy
+- uri: pricing://current
+  title: Prices
+tools_list: mcp/yawplet-mcp-tools.json
+note: tools/list response saved verbatim (result object) in mcp/yawplet-mcp-tools.json.

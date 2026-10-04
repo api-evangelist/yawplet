@@ -1,0 +1,51 @@
+generated: '2026-09-26'
+method: searched
+source:
+- https://yawplet.com/privacy/
+- https://yawplet.com/terms/
+- https://yawplet.com/policy/
+signals:
+  subprocessors:
+    url: https://yawplet.com/privacy/
+    section: 5. Who we share it with
+    evidence:
+    - source: https://yawplet.com/privacy/
+      http_status: 200
+      fetched: '2026-09-26'
+      quote: 'We share only what each service needs with the processors that run the sites: Stripe (payments), Amazon
+        Web Services (hosting, storage, email delivery).'
+    note: Named in the privacy policy, not a dated subprocessor table.
+  data_subject_request:
+    url: https://yawplet.com/privacy/
+    section: 7. Your choices and rights
+    channel: info@apievangelist.com
+    evidence:
+    - source: https://yawplet.com/privacy/
+      http_status: 200
+      fetched: '2026-09-26'
+      quote: You can ask us for a copy of your data, to correct it, or to delete it by emailing info@apievangelist.com
+        .
+    stated_sla: null
+  notice_and_action:
+    url: https://yawplet.com/report/
+    api: POST /v1/reports
+    evidence:
+    - source: https://yawplet.com/terms/
+      http_status: 200
+      fetched: '2026-09-26'
+      quote: Anyone can report a published post with the “Report this post” link on it or the report form . A person
+        reviews reports about possible abuse.
+    appeals: within 30 days, by email; a person reviews every appeal
+  ai_transparency:
+    url: https://yawplet.com/policy/
+    evidence:
+    - source: https://yawplet.com/policy/
+      http_status: 200
+      fetched: '2026-09-26'
+      quote: 'Every post is checked before it is published: first by fixed rules, then by a moderation model that
+        reads this exact policy, and by a person when the model is unsure.'
+    - source: https://yawplet.com/privacy/
+      http_status: 200
+      fetched: '2026-09-26'
+      quote: Posts are moderated by rules and a moderation model we run ourselves; post text is not sent to third-party
+        AI services for moderation.

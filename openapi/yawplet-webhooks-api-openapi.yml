@@ -1,0 +1,462 @@
+openapi: 3.2.0
+info:
+  title: Yawplet Webhooks API
+  version: 0.1.0
+  license:
+    name: Apache-2.0
+    identifier: Apache-2.0
+  description: 'Operations tagged Webhooks across 2 of this provider''s published API definitions: yawplet-openapi.yml, yawplet-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://yawplet.com
+  description: messages
+- url: https://yarnhen.com
+  description: stories
+- url: https://hagglebee.com
+  description: classifieds
+- url: https://eventwren.com
+  description: events
+security:
+- apiKey: []
+tags:
+- name: Webhooks
+paths:
+  /v1/webhooks:
+    get:
+      tags:
+      - Webhooks
+      operationId: listWebhooks
+      summary: Your webhook endpoints
+      description: The endpoints registered on this account and the events each receives. Secrets are never listed.
+      responses:
+        '200':
+          description: Endpoints
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Webhook'
+                  events:
+                    type: array
+                    items:
+                      type: string
+              example:
+                items:
+                - id: wh_3kd8
+                  url: https://hooks.example.com/yawplet
+                  events:
+                  - post.published
+                  - post.rejected
+                  created_at: '2026-09-26T20:00:00Z'
+                  active: true
+                events:
+                - post.published
+                - post.rejected
+                - post.review
+                - post.removed
+    post:
+      tags:
+      - Webhooks
+      operationId: createWebhook
+      summary: Register a webhook endpoint
+      description: 'Hear about your own posts'' moderation outcomes instead of polling. The
+
+        url must be public https on port 443. Deliveries follow the Standard
+
+        Webhooks spec (webhook-id, webhook-timestamp, webhook-signature), are
+
+        at-least-once, and are retried with backoff for about a day; dedupe on
+
+        webhook-id. The secret is returned once. Up to 5 per account.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - url
+              properties:
+                url:
+                  type: string
+                  format: uri
+                events:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                    - post.published
+                    - post.rejected
+                    - post.review
+                    - post.removed
+                  description: Defaults to all events.
+            example:
+              url: https://hooks.example.com/yawplet
+              events:
+              - post.published
+              - post.rejected
+      responses:
+        '201':
+          description: Created. Store `secret`; it is not shown again.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Webhook'
+                - type: object
+                  properties:
+                    secret:
+                      type: string
+                    note:
+                      type: string
+              example:
+                id: wh_3kd8
+                url: https://hooks.example.com/yawplet
+                events:
+                - post.published
+                - post.rejected
+                created_at: '2026-09-26T20:00:00Z'
+                active: true
+                secret: whsec_…
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '409':
+          $ref: '#/components/responses/Error'
+    servers:
+    - url: https://yawplet.com
+      description: messages
+    - url: https://yarnhen.com
+      description: stories
+    - url: https://hagglebee.com
+      description: classifieds
+    - url: https://eventwren.com
+      description: events
+  /v1/webhooks/{id}/test:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Webhooks
+      operationId: testWebhook
+      summary: Send a test event to a webhook endpoint
+      description: Queues a signed `webhook.test` delivery to the endpoint, so you can check reachability and your signature verification before a real outcome arrives. Free.
+      responses:
+        '202':
+          description: Queued
+          content:
+            application/json:
+              example:
+                queued: true
+                webhook_id: wh_3kd8
+                delivery_id: msg_9f2c
+                type: webhook.test
+        '404':
+          $ref: '#/components/responses/Error'
+    servers:
+    - url: https://yawplet.com
+      description: messages
+    - url: https://yarnhen.com
+      description: stories
+    - url: https://hagglebee.com
+      description: classifieds
+    - url: https://eventwren.com
+      description: events
+  /v1/webhooks/{id}:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    delete:
+      tags:
+      - Webhooks
+      operationId: deleteWebhook
+      summary: Delete a webhook endpoint
+      description: Stops deliveries to this endpoint, including queued retries. Not reversible; register again to resume.
+      responses:
+        '200':
+          description: Deleted
+          content:
+            application/json:
+              example:
+                id: wh_3kd8
+                deleted: true
+        '404':
+          $ref: '#/components/responses/Error'
+    servers:
+    - url: https://yawplet.com
+      description: messages
+    - url: https://yarnhen.com
+      description: stories
+    - url: https://hagglebee.com
+      description: classifieds
+    - url: https://eventwren.com
+      description: events
+webhooks:
+  postOutcome:
+    post:
+      tags:
+      - Webhooks
+      operationId: postOutcomeWebhook
+      summary: A post's moderation outcome
+      description: Sent to your registered endpoints when one of your posts is published, rejected, held for review, or removed. Verify `webhook-signature` (v1, base64 HMAC-SHA256 of ".." with the base64 key after `whsec_`). Answer 2xx within 10 seconds; anything else is retried. Also described in /asyncapi.yml.
+      parameters:
+      - name: webhook-id
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: webhook-timestamp
+        in: header
+        required: true
+        schema:
+          type: integer
+      - name: webhook-signature
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookEvent'
+            example:
+              type: post.published
+              timestamp: '2026-09-26T12:06:28Z'
+              data:
+                id: p_FS1GRjpzGUEqobJj
+                site: messages
+                status: published
+                price: 20000
+      responses:
+        '200':
+          description: Received. Any 2xx works.
+    servers:
+    - url: https://yawplet.com
+      description: messages
+    - url: https://yarnhen.com
+      description: stories
+    - url: https://hagglebee.com
+      description: classifieds
+    - url: https://eventwren.com
+      description: events
+components:
+  schemas:
+    WebhookEvent:
+      type: object
+      required:
+      - type
+      - timestamp
+      - data
+      properties:
+        type:
+          type: string
+          enum:
+          - post.published
+          - post.rejected
+          - post.review
+          - post.removed
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/OwnPost'
+    OwnPost:
+      type: object
+      properties:
+        id:
+          type: string
+        site:
+          type: string
+        status:
+          type: string
+          enum:
+          - queued
+          - review
+          - published
+          - rejected
+          - deleted
+        price:
+          type: integer
+        submitted_at:
+          type: string
+          format: date-time
+        post:
+          $ref: '#/components/schemas/Post'
+        rejection:
+          type: object
+          properties:
+            category:
+              type: string
+            reason:
+              type: string
+            penalized:
+              type: boolean
+            amount:
+              type: integer
+        note:
+          type: string
+        moderation:
+          type: object
+          description: Present while status is queued.
+          properties:
+            state:
+              type: string
+              enum:
+              - running
+              - starting
+            estimated_decision_at:
+              type: string
+              format: date-time
+            retry_after_seconds:
+              type: integer
+            note:
+              type: string
+    Webhook:
+      type: object
+      properties:
+        id:
+          type: string
+        url:
+          type: string
+          format: uri
+        events:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+    Post:
+      type: object
+      description: A published post. Its fields are those of the site's input schema, plus these.
+      properties:
+        id:
+          type: string
+        site:
+          type: string
+          enum:
+          - messages
+          - stories
+          - classifieds
+          - events
+        url:
+          type: string
+          format: uri
+        content_trust:
+          type: string
+          const: untrusted-user-content
+        license:
+          type: object
+          properties:
+            id:
+              type: string
+            url:
+              type: string
+        author:
+          type: object
+          properties:
+            handle:
+              type: string
+        published_at:
+          type: string
+          format: date-time
+        expires_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        policy_version:
+          type: string
+      additionalProperties: true
+    Error:
+      type: object
+      description: RFC 9457 problem details. The legacy `error` object carries the same code and message.
+      properties:
+        type:
+          type: string
+          description: Link to the code's entry on /problems/
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+        code:
+          type: string
+          description: Stable machine-readable code
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            errors:
+              type: array
+              items:
+                type: string
+            account_url:
+              type: string
+              format: uri
+            for_human:
+              type: boolean
+            charged:
+              type: integer
+  responses:
+    Invalid:
+      description: The request is malformed; nothing was charged
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            type: /problems/#invalid
+            title: The request is not valid
+            status: 400
+            detail: text is required
+            code: invalid
+            errors:
+            - text is required
+            error:
+              code: invalid
+              message: text is required
+              errors:
+              - text is required
+    Error:
+      description: An RFC 9457 problem. `type` links to /problems/, `code` is stable.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            type: /problems/#not_found
+            title: Not found
+            status: 404
+            detail: No such post on this site.
+            code: not_found
+            error:
+              code: not_found
+              message: No such post on this site.
+  securitySchemes:
+    apiKey:
+      type: http
+      scheme: bearer
+      description: API key from POST /v1/accounts
+x-refined-from:
+- yawplet-openapi.yml
+- yawplet-openapi.yml

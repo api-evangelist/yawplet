@@ -1,0 +1,177 @@
+{
+  "@context": {
+    "@vocab": "https://yawplet.com/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "yawplet": "https://yawplet.com/schema#",
+    "Error": "yawplet:Error",
+    "error": {
+      "@id": "yawplet:error"
+    },
+    "Account": "yawplet:Account",
+    "account_id": {
+      "@id": "yawplet:account_id",
+      "@type": "xsd:string"
+    },
+    "handle": {
+      "@id": "yawplet:handle",
+      "@type": "xsd:string"
+    },
+    "status": {
+      "@id": "yawplet:status",
+      "@type": "xsd:string"
+    },
+    "balance": {
+      "@id": "yawplet:balance",
+      "@type": "xsd:integer"
+    },
+    "strikes": {
+      "@id": "yawplet:strikes",
+      "@type": "xsd:integer"
+    },
+    "card_on_file": {
+      "@id": "yawplet:card_on_file",
+      "@type": "xsd:boolean"
+    },
+    "email_verified": {
+      "@id": "yawplet:email_verified",
+      "@type": "xsd:boolean"
+    },
+    "auto_recharge": {
+      "@id": "yawplet:auto_recharge"
+    },
+    "account_url": {
+      "@id": "yawplet:account_url",
+      "@type": "@id"
+    },
+    "Location": "yawplet:Location",
+    "country": {
+      "@id": "yawplet:country",
+      "@type": "xsd:string"
+    },
+    "state": {
+      "@id": "yawplet:state",
+      "@type": "xsd:string"
+    },
+    "city": {
+      "@id": "yawplet:city"
+    },
+    "MessageInput": "yawplet:MessageInput",
+    "text": {
+      "@id": "yawplet:text",
+      "@type": "xsd:string"
+    },
+    "topics": {
+      "@id": "yawplet:topics",
+      "@type": "@id"
+    },
+    "location": {
+      "@id": "yawplet:location",
+      "@type": "@id"
+    },
+    "StoryInput": "yawplet:StoryInput",
+    "title": {
+      "@id": "yawplet:title",
+      "@type": "xsd:string"
+    },
+    "body": {
+      "@id": "yawplet:body",
+      "@type": "xsd:string"
+    },
+    "ClassifiedInput": "yawplet:ClassifiedInput",
+    "category": {
+      "@id": "yawplet:category",
+      "@type": "xsd:string"
+    },
+    "price": {
+      "@id": "yawplet:price"
+    },
+    "condition": {
+      "@id": "yawplet:condition",
+      "@type": "xsd:string"
+    },
+    "EventInput": "yawplet:EventInput",
+    "timezone": {
+      "@id": "yawplet:timezone",
+      "@type": "xsd:string"
+    },
+    "starts_at": {
+      "@id": "yawplet:starts_at",
+      "@type": "xsd:dateTime"
+    },
+    "ends_at": {
+      "@id": "yawplet:ends_at",
+      "@type": "xsd:dateTime"
+    },
+    "occurrences": {
+      "@id": "yawplet:occurrences",
+      "@container": "@list"
+    },
+    "online_url": {
+      "@id": "yawplet:online_url",
+      "@type": "@id"
+    },
+    "Post": "yawplet:Post",
+    "id": {
+      "@id": "yawplet:id",
+      "@type": "xsd:string"
+    },
+    "site": {
+      "@id": "yawplet:site",
+      "@type": "xsd:string"
+    },
+    "url": {
+      "@id": "yawplet:url",
+      "@type": "@id"
+    },
+    "content_trust": {
+      "@id": "yawplet:content_trust",
+      "@type": "xsd:string"
+    },
+    "license": {
+      "@id": "yawplet:license"
+    },
+    "author": {
+      "@id": "yawplet:author"
+    },
+    "published_at": {
+      "@id": "yawplet:published_at",
+      "@type": "xsd:dateTime"
+    },
+    "expires_at": {
+      "@id": "yawplet:expires_at",
+      "@type": "xsd:dateTime"
+    },
+    "policy_version": {
+      "@id": "yawplet:policy_version",
+      "@type": "xsd:string"
+    },
+    "OwnPost": "yawplet:OwnPost",
+    "submitted_at": {
+      "@id": "yawplet:submitted_at",
+      "@type": "xsd:dateTime"
+    },
+    "post": {
+      "@id": "yawplet:post",
+      "@type": "@id"
+    },
+    "rejection": {
+      "@id": "yawplet:rejection"
+    },
+    "note": {
+      "@id": "yawplet:note",
+      "@type": "xsd:string"
+    },
+    "moderation": {
+      "@id": "yawplet:moderation"
+    }
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "Yawplet API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects Yawplet's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-09-26) from openapi/yawplet-openapi.yml.",
+  "dcterms:created": "2026-09-26",
+  "dcterms:source": [
+    "openapi/yawplet-openapi.yml"
+  ]
+}

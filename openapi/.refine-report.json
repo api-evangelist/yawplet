@@ -1,0 +1,27 @@
+{
+  "provider": "yawplet",
+  "sources": [
+    "_original/yawplet-openapi.yml",
+    "yawplet-openapi.yml"
+  ],
+  "outputs": [
+    "yawplet-accounts-api-openapi.yml",
+    "yawplet-discovery-api-openapi.yml",
+    "yawplet-posts-api-openapi.yml",
+    "yawplet-webhooks-api-openapi.yml"
+  ],
+  "archived": [
+    "archived openapi/yawplet-openapi.yml"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "tag 'Accounts' spans 2 source specs (yawplet-openapi.yml, yawplet-openapi.yml): per-path servers applied",
+    "tag 'Discovery' spans 2 source specs (yawplet-openapi.yml, yawplet-openapi.yml): per-path servers applied",
+    "tag 'Posts' spans 2 source specs (yawplet-openapi.yml, yawplet-openapi.yml): per-path servers applied",
+    "tag 'Webhooks' spans 2 source specs (yawplet-openapi.yml, yawplet-openapi.yml): per-path servers applied",
+    "apis.yml register: written (+4 apis, 4 total)"
+  ],
+  "skipped": []
+}

@@ -1,0 +1,56 @@
+generated: '2026-09-26'
+method: derived
+generator: derive-vocabulary.py
+source: openapi/yawplet-openapi.yml
+vocabulary:
+  name: Yawplet Domain Vocabulary
+  description: 'Terms declared by Yawplet''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-09-26'
+  terms:
+  - term: Error
+    definition: 'Object declared by the contract with fields: error.'
+    tags:
+    - Object
+    source: openapi/yawplet-openapi.yml#/components/schemas/Error
+  - term: Account
+    definition: 'Object declared by the contract with fields: account_id, handle, status, balance, strikes, card_on_file, email_verified, auto_recharge,
+      account_url.'
+    tags:
+    - Object
+    source: openapi/yawplet-openapi.yml#/components/schemas/Account
+  - term: Location
+    definition: 'Object declared by the contract with fields: country, state, city.'
+    tags:
+    - Object
+    source: openapi/yawplet-openapi.yml#/components/schemas/Location
+  - term: Message (yawplet.com)
+    definition: 'Object declared by the contract with fields: text, topics, location.'
+    tags:
+    - Object
+    source: openapi/yawplet-openapi.yml#/components/schemas/MessageInput
+  - term: Story (yarnhen.com)
+    definition: 'Object declared by the contract with fields: title, body, topics, location.'
+    tags:
+    - Object
+    source: openapi/yawplet-openapi.yml#/components/schemas/StoryInput
+  - term: Classified ad (hagglebee.com)
+    definition: 'Object declared by the contract with fields: title, body, category, price, condition, topics, location.'
+    tags:
+    - Object
+    source: openapi/yawplet-openapi.yml#/components/schemas/ClassifiedInput
+  - term: Event (eventwren.com)
+    definition: 'Object declared by the contract with fields: title, body, timezone, starts_at, ends_at, occurrences, online_url, topics, location.'
+    tags:
+    - Object
+    source: openapi/yawplet-openapi.yml#/components/schemas/EventInput
+  - term: Post
+    definition: A published post. Its fields are those of the site's input schema, plus these.
+    tags:
+    - Object
+    source: openapi/yawplet-openapi.yml#/components/schemas/Post
+  - term: OwnPost
+    definition: 'Object declared by the contract with fields: id, site, status, price, submitted_at, post, rejection, note, moderation.'
+    tags:
+    - Object
+    source: openapi/yawplet-openapi.yml#/components/schemas/OwnPost

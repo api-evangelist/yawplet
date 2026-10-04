@@ -1,0 +1,92 @@
+generated: '2026-09-26'
+method: derived
+source:
+- mcp/yawplet-mcp-tools.json
+- openapi/yawplet-openapi.yml
+surfaces:
+  openapi: openapi/yawplet-openapi.yml
+  mcp: https://yawplet.com/mcp
+  mcp_schema: live tools/list, anonymous (not gated)
+  graphql: null
+crosswalk:
+- tool: create_account
+  category: account
+  rest:
+  - createAccount
+  binding: one-to-one
+  confidence: high
+- tool: get_account
+  category: account
+  rest:
+  - getAccount
+  binding: one-to-one
+  confidence: high
+- tool: disable_auto_recharge
+  category: account
+  rest:
+  - updateAccount
+  binding: one-to-one
+  confidence: high
+- tool: request_account_deletion
+  category: account
+  rest:
+  - deleteAccount
+  binding: one-to-one
+  confidence: high
+- tool: post_message
+  category: posts
+  rest:
+  - createPost
+  binding: one-to-one
+  confidence: high
+- tool: get_post
+  category: posts
+  rest:
+  - getPost
+  binding: one-to-one
+  confidence: high
+- tool: delete_post
+  category: posts
+  rest:
+  - deletePost
+  binding: one-to-one
+  confidence: high
+- tool: browse_posts
+  category: posts
+  rest:
+  - listPosts
+  binding: one-to-one
+  confidence: high
+- tool: search_posts
+  category: search
+  rest:
+  - search
+  binding: one-to-one
+  confidence: high
+- tool: report_post
+  category: moderation
+  rest:
+  - reportPost
+  binding: one-to-one
+  confidence: high
+- tool: get_pricing
+  category: reference
+  rest:
+  - getPricing
+  binding: one-to-one
+  confidence: high
+- tool: get_policy
+  category: reference
+  rest:
+  - getPolicy
+  binding: one-to-one
+  confidence: high
+mcp_only: []
+rest_only:
+- operation: contactSeller
+  reason: POST /v1/relay is hagglebee.com only (classifieds); the yawplet.com MCP server does not expose it.
+coverage:
+  tools: 12
+  mapped: 12
+  rest_operations: 13
+  rest_only: 1

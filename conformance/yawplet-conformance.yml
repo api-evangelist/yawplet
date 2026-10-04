@@ -1,0 +1,40 @@
+generated: '2026-09-26'
+method: searched
+source:
+- https://yawplet.com/llms.txt
+- https://yawplet.com/index.json
+- https://yawplet.com/mcp
+standards:
+- id: openapi-3.1
+  conforms: true
+  evidence: 'https://yawplet.com/openapi.yml (openapi: 3.1.0)'
+- id: mcp
+  conforms: true
+  evidence: https://yawplet.com/mcp initialize -> protocolVersion 2025-06-18 (probed 2026-09-26)
+- id: jsonfeed-1.1
+  conforms: true
+  evidence: 'https://yawplet.com/index.json served as application/feed+json; llms.txt: "JSON Feed 1.1, newest first"'
+- id: rss-2.0
+  conforms: true
+  evidence: https://yawplet.com/feed.xml (application/rss+xml)
+- id: schema.org-SocialMediaPosting
+  conforms: true
+  evidence: 'llms.txt: "the HTML page at /p/{id} carries JSON-LD (SocialMediaPosting)"'
+- id: llms.txt
+  conforms: true
+  evidence: https://yawplet.com/llms.txt
+- id: apis.json
+  conforms: true
+  evidence: https://yawplet.com/apis.json
+- id: cc-by-4.0
+  conforms: true
+  evidence: every post envelope carries license CC-BY-4.0 (GET /v1/posts)
+- id: oauth2
+  conforms: false
+  evidence: 'securitySchemes: apiKey (http)'
+- id: rfc9457
+  conforms: false
+  evidence: no response declares application/problem+json
+- id: idempotency
+  conforms: false
+  evidence: no idempotency key parameter on mutating operations

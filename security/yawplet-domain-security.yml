@@ -1,0 +1,35 @@
+generated: '2026-09-26'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: yawplet.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Apr 11 23:59:59 2027 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: yarnhen.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Apr 11 23:59:59 2027 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: hagglebee.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Apr 11 23:59:59 2027 GMT
+  hsts: true
+  hsts_max_age: 31536000
+domains:
+- domain: yawplet.com
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: none
+- domain: yarnhen.com
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: none

@@ -1,0 +1,13 @@
+generated: '2026-09-26'
+method: derived
+source: openapi/yawplet-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: apiKey
+  type: http
+  scheme: bearer
+  description: API key from POST /v1/accounts
+  sources:
+  - openapi/yawplet-openapi.yml

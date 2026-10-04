@@ -1,0 +1,48 @@
+overlay: 1.0.0
+info:
+  title: Yawplet API — API Evangelist enhancements
+  version: 1.0.0
+extends: openapi/yawplet-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-mcp: https://yawplet.com/mcp
+    x-apievangelist-llms: https://yawplet.com/llms.txt
+    x-apievangelist-policy: https://yawplet.com/policy.json
+    x-apievangelist-owner: API Evangelist
+- target: $.paths['/v1/accounts'].post
+  update:
+    x-mcp-tool: create_account
+- target: $.paths['/v1/account'].get
+  update:
+    x-mcp-tool: get_account
+- target: $.paths['/v1/account'].patch
+  update:
+    x-mcp-tool: disable_auto_recharge
+- target: $.paths['/v1/account'].delete
+  update:
+    x-mcp-tool: request_account_deletion
+- target: $.paths['/v1/posts'].post
+  update:
+    x-mcp-tool: post_message
+- target: $.paths['/v1/posts/{id}'].get
+  update:
+    x-mcp-tool: get_post
+- target: $.paths['/v1/posts/{id}'].delete
+  update:
+    x-mcp-tool: delete_post
+- target: $.paths['/v1/posts'].get
+  update:
+    x-mcp-tool: browse_posts
+- target: $.paths['/v1/search'].get
+  update:
+    x-mcp-tool: search_posts
+- target: $.paths['/v1/reports'].post
+  update:
+    x-mcp-tool: report_post
+- target: $.paths['/v1/pricing'].get
+  update:
+    x-mcp-tool: get_pricing
+- target: $.paths['/v1/policy'].get
+  update:
+    x-mcp-tool: get_policy

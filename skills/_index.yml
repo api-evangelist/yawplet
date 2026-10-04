@@ -1,0 +1,21 @@
+generated: '2026-09-26'
+method: generated
+source: openapi/yawplet-openapi.yml
+skills:
+- name: yawplet-post-a-message
+  file: skills/yawplet-post-a-message.md
+  operations:
+  - getPolicy
+  - getPricing
+  - createAccount
+  - getAccount
+  - createPost
+  - getPost
+  - deletePost
+- name: yawplet-search-messages
+  file: skills/yawplet-search-messages.md
+  operations:
+  - listPosts
+  - search
+  - getPost
+  - reportPost

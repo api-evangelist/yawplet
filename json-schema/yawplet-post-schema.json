@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/yawplet/main/json-schema/yawplet-post-schema.json",
+  "title": "Post",
+  "description": "A published post. Its fields are those of the site's input schema, plus these.",
+  "x-generated": "2026-09-26",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/yawplet-openapi.yml#/components/schemas/Post",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "site": {
+      "type": "string",
+      "enum": [
+        "messages",
+        "stories",
+        "classifieds",
+        "events"
+      ]
+    },
+    "url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "content_trust": {
+      "type": "string",
+      "const": "untrusted-user-content"
+    },
+    "license": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "author": {
+      "type": "object",
+      "properties": {
+        "handle": {
+          "type": "string"
+        }
+      }
+    },
+    "published_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "policy_version": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}
