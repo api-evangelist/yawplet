@@ -1,0 +1,8 @@
+# Yawplet (yawplet.com) — how to report a security problem.
+# The disclosure policy is at the Policy URL. There is no bug bounty.
+Contact: mailto:security@yawplet.com
+Contact: mailto:info@apievangelist.com
+Expires: 2027-10-05T21:22:21Z
+Preferred-Languages: en
+Canonical: https://yawplet.com/.well-known/security.txt
+Policy: https://yawplet.com/security/

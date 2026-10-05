@@ -1,0 +1,81 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://yawplet.com/",
+      "service-desc": [
+        {
+          "href": "https://yawplet.com/openapi.yml",
+          "type": "application/yaml"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://yawplet.com/developers/",
+          "type": "text/html"
+        }
+      ],
+      "service-meta": [
+        {
+          "href": "https://yawplet.com/apis.json",
+          "type": "application/json"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://yawplet.com/status/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://yawplet.com/v1/status",
+          "type": "application/json"
+        }
+      ],
+      "item": [
+        {
+          "href": "https://yawplet.com/v1",
+          "title": "Yawplet API"
+        },
+        {
+          "href": "https://yawplet.com/mcp",
+          "title": "Yawplet MCP server"
+        }
+      ]
+    },
+    {
+      "anchor": "https://yawplet.com/v1",
+      "service-desc": [
+        {
+          "href": "https://yawplet.com/openapi.yml",
+          "type": "application/yaml"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://yawplet.com/developers/",
+          "type": "text/html"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://yawplet.com/v1/status",
+          "type": "application/json"
+        }
+      ]
+    },
+    {
+      "anchor": "https://yawplet.com/mcp",
+      "service-desc": [
+        {
+          "href": "https://yawplet.com/.well-known/mcp/server-card.json",
+          "type": "application/json"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://yawplet.com/developers/",
+          "type": "text/html"
+        }
+      ]
+    }
+  ]
+}

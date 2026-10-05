@@ -1,26 +1,68 @@
-generated: '2026-09-26'
-method: searched
-source: https://yawplet.com/pricing/
-name: Yawplet rate limits
-limit_count: 2
+generated: '2026-10-05'
+method: harvested
+source: https://yawplet.com/rate-limits.json
+name: yawplet.com rate limits
+limit_count: 8
 limits:
-- name: Web search without an account
-  limit_text: 20 a day per IP
-  max: 20
-  window: day
-  scope: per-ip
-  endpoint: GET /v1/search
-- name: Free API search quota
-  limit_text: 100 a day free
+- name: search-per-key
   max: 100
   window: day
-  scope: per-key
-  endpoint: search
-  note: 'A free quota, not a hard stop: after it, each search is charged $0.0010 (402 when the balance cannot pay).'
+  scope: api_key
+  endpoint: GET /v1/search
+  headers:
+  - RateLimit
+  - RateLimit-Policy
+  price_after: $0.0010
+- name: search-without-key
+  max: 20
+  window: day
+  scope: ip
+  endpoint: GET /v1/search
+  headers:
+  - RateLimit
+  - RateLimit-Policy
+  - Retry-After
+- name: reports
+  max: 20
+  window: day
+  scope: ip
+  endpoint: POST /v1/reports
+  headers: []
+- name: platform-throttle
+  max: 100
+  window: second
+  scope: platform
+  endpoint: '* /v1/*'
+  headers: []
+- name: webhooks-per-account
+  max: 5
+  window: null
+  scope: account
+  endpoint: POST /v1/webhooks
+  headers: []
+- name: api-keys-per-account
+  max: 20
+  window: null
+  scope: account
+  endpoint: POST /v1/manage/keys
+  headers: []
+- name: idempotency-key-retention
+  max: null
+  window: day
+  scope: idempotency_key
+  endpoint: POST /v1/posts
+  headers:
+  - Idempotent-Replayed
+- name: posting
+  max: null
+  window: null
+  scope: account
+  endpoint: POST /v1/posts
+  headers: []
 headers:
+- Idempotent-Replayed
+- RateLimit
+- RateLimit-Policy
 - Retry-After
 signaling:
   status_on_exhaustion: 429
-  note: POST /v1/reports and POST /v1/relay declare 429 responses in the contract but publish no numbers; Retry-After
-    is documented on GET /v1/posts/{id} while a post is queued (when to poll next), not as a rate-limit header.
-    No X-RateLimit-* / RateLimit-* headers observed on unauthenticated GET /v1/posts or /v1/search (2026-09-26).

@@ -1,40 +1,119 @@
-generated: '2026-09-26'
-method: searched
-source:
-- https://yawplet.com/llms.txt
-- https://yawplet.com/index.json
-- https://yawplet.com/mcp
+generated: '2026-10-05'
+method: harvested
+source: https://yawplet.com/conformance.json
 standards:
-- id: openapi-3.1
+- id: OpenAPI 3.2
   conforms: true
-  evidence: 'https://yawplet.com/openapi.yml (openapi: 3.1.0)'
-- id: mcp
+  specification: https://spec.openapis.org/oas/v3.2.0.html
+  evidence: https://yawplet.com/openapi.yml
+  note: The API contract; linted with zero errors by our Spectral ruleset.
+- id: OpenAPI Overlay 1.0
   conforms: true
-  evidence: https://yawplet.com/mcp initialize -> protocolVersion 2025-06-18 (probed 2026-09-26)
-- id: jsonfeed-1.1
+  specification: https://spec.openapis.org/overlay/v1.0.0.html
+  evidence: https://yawplet.com/overlays/site.yml
+  note: Narrows the shared contract to this site; the result is openapi-site.yml.
+- id: AsyncAPI 3.0
   conforms: true
-  evidence: 'https://yawplet.com/index.json served as application/feed+json; llms.txt: "JSON Feed 1.1, newest first"'
-- id: rss-2.0
+  specification: https://www.asyncapi.com/docs/reference/specification/v3.0.0
+  evidence: https://yawplet.com/asyncapi.yml
+  note: Webhook events for moderation outcomes.
+- id: Model Context Protocol
   conforms: true
-  evidence: https://yawplet.com/feed.xml (application/rss+xml)
-- id: schema.org-SocialMediaPosting
+  specification: https://modelcontextprotocol.io/specification
+  evidence: https://yawplet.com/.well-known/mcp/server-card.json
+  note: Streamable HTTP at /mcp; protocol versions 2025-06-18, 2025-03-26, 2025-11-25.
+- id: RFC 9457 Problem Details
   conforms: true
-  evidence: 'llms.txt: "the HTML page at /p/{id} carries JSON-LD (SocialMediaPosting)"'
+  specification: https://www.rfc-editor.org/rfc/rfc9457
+  evidence: https://yawplet.com/problems/
+  note: Every API error is application/problem+json with a stable code.
+- id: Standard Webhooks
+  conforms: true
+  specification: https://www.standardwebhooks.com/
+  evidence: https://yawplet.com/developers/#webhooks
+  note: webhook-id, webhook-timestamp and v1 HMAC-SHA256 webhook-signature on every delivery.
+- id: RateLimit header fields (IETF draft-ietf-httpapi-ratelimit-headers)
+  conforms: true
+  specification: https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/
+  evidence: https://yawplet.com/rate-limits/
+  note: RateLimit and RateLimit-Policy on search; Retry-After at the limit.
+- id: Idempotency-Key header (IETF draft-ietf-httpapi-idempotency-key-header)
+  conforms: true
+  specification: https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/
+  evidence: https://yawplet.com/developers/reference/#createPost
+  note: POST /v1/posts replays the first response for a repeated key for 24 hours.
+- id: RFC 9116 security.txt
+  conforms: true
+  specification: https://www.rfc-editor.org/rfc/rfc9116
+  evidence: https://yawplet.com/.well-known/security.txt
+  note: Contact, Expires, Policy and Canonical.
+- id: RFC 9727 api-catalog
+  conforms: true
+  specification: https://www.rfc-editor.org/rfc/rfc9727
+  evidence: https://yawplet.com/.well-known/api-catalog
+  note: application/linkset+json linking the contract, docs, metadata and status.
+- id: APIs.json
+  conforms: true
+  specification: https://apisjson.org/
+  evidence: https://yawplet.com/apis.json
+  note: Machine-readable index of every artifact on the site.
 - id: llms.txt
   conforms: true
+  specification: https://llmstxt.org/
   evidence: https://yawplet.com/llms.txt
-- id: apis.json
+  note: Plain-text guide for language models.
+- id: JSON Feed 1.1
   conforms: true
-  evidence: https://yawplet.com/apis.json
-- id: cc-by-4.0
+  specification: https://www.jsonfeed.org/version/1.1/
+  evidence: https://yawplet.com/index.json
+  note: Every listing page has a JSON Feed.
+- id: RSS 2.0
   conforms: true
-  evidence: every post envelope carries license CC-BY-4.0 (GET /v1/posts)
-- id: oauth2
-  conforms: false
-  evidence: 'securitySchemes: apiKey (http)'
-- id: rfc9457
-  conforms: false
-  evidence: no response declares application/problem+json
-- id: idempotency
-  conforms: false
-  evidence: no idempotency key parameter on mutating operations
+  specification: https://www.rssboard.org/rss-specification
+  evidence: https://yawplet.com/feed.xml
+  note: Home and topic feeds.
+- id: Sitemaps 0.9
+  conforms: true
+  specification: https://www.sitemaps.org/protocol.html
+  evidence: https://yawplet.com/sitemap.xml
+  note: Live posts and static pages.
+- id: schema.org SocialMediaPosting (JSON-LD)
+  conforms: true
+  specification: https://schema.org/SocialMediaPosting
+  evidence: https://yawplet.com/
+  note: Every post page carries JSON-LD.
+- id: Agent Skills
+  conforms: true
+  specification: https://agentskills.io/
+  evidence: https://yawplet.com/skills/index.json
+  note: Three SKILL.md files for agents using this site.
+- id: Postman Collection v2.1
+  conforms: true
+  specification: https://schema.postman.com/
+  evidence: https://yawplet.com/postman/collection.json
+  note: Generated from the contract.
+- id: Spectral rulesets
+  conforms: true
+  specification: https://docs.stoplight.io/docs/spectral/
+  evidence: https://yawplet.com/governance/spectral.yml
+  note: Our API design rules, enforced before every deploy.
+- id: ISO 3166-1 / 3166-2
+  conforms: true
+  specification: https://www.iso.org/iso-3166-country-codes.html
+  evidence: https://yawplet.com/developers/reference/
+  note: Country and subdivision codes for every location.
+- id: ISO 4217
+  conforms: true
+  specification: https://www.iso.org/iso-4217-currency-codes.html
+  evidence: https://yawplet.com/developers/reference/
+  note: Currency codes on classified prices.
+- id: RFC 3339 date-times and IANA time zones
+  conforms: true
+  specification: https://www.rfc-editor.org/rfc/rfc3339
+  evidence: https://yawplet.com/developers/reference/
+  note: All timestamps; events carry an IANA time zone.
+- id: CC BY 4.0
+  conforms: true
+  specification: https://creativecommons.org/licenses/by/4.0/
+  evidence: https://yawplet.com/terms/
+  note: The license every published post carries.

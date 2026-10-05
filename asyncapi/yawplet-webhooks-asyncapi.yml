@@ -31,6 +31,7 @@ channels:
       postRejected: { $ref: '#/components/messages/postRejected' }
       postReview: { $ref: '#/components/messages/postReview' }
       postRemoved: { $ref: '#/components/messages/postRemoved' }
+      webhookTest: { $ref: '#/components/messages/webhookTest' }
 operations:
   receivePostOutcome:
     action: receive
@@ -41,6 +42,7 @@ operations:
       - $ref: '#/channels/postOutcome/messages/postRejected'
       - $ref: '#/channels/postOutcome/messages/postReview'
       - $ref: '#/channels/postOutcome/messages/postRemoved'
+      - $ref: '#/channels/postOutcome/messages/webhookTest'
 components:
   messages:
     postPublished:
@@ -71,6 +73,12 @@ components:
       summary: A published post was taken down after a report.
       headers: { $ref: '#/components/schemas/Headers' }
       payload: { $ref: '#/components/schemas/Event' }
+    webhookTest:
+      name: webhook.test
+      title: Test delivery
+      summary: Sent only when you call POST /v1/webhooks/{id}/test, to check your endpoint and signature verification.
+      headers: { $ref: '#/components/schemas/Headers' }
+      payload: { $ref: '#/components/schemas/Event' }
   schemas:
     Headers:
       type: object
@@ -83,7 +91,7 @@ components:
       type: object
       required: [type, timestamp, data]
       properties:
-        type: { type: string, enum: [post.published, post.rejected, post.review, post.removed] }
+        type: { type: string, enum: [post.published, post.rejected, post.review, post.removed, webhook.test], description: 'webhook.test is sent only by POST /v1/webhooks/{id}/test.' }
         timestamp: { type: string, format: date-time }
         data:
           type: object
