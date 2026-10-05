@@ -1,0 +1,37 @@
+{
+  "issuer": "https://yawplet.com",
+  "authorization_endpoint": "https://yawplet.com/v1/oauth/authorize",
+  "token_endpoint": "https://yawplet.com/v1/oauth/token",
+  "registration_endpoint": "https://yawplet.com/v1/oauth/register",
+  "revocation_endpoint": "https://yawplet.com/v1/oauth/revoke",
+  "scopes_supported": [
+    "posts:read",
+    "posts:write",
+    "search",
+    "account:read",
+    "webhooks:manage"
+  ],
+  "response_types_supported": [
+    "code"
+  ],
+  "response_modes_supported": [
+    "query"
+  ],
+  "grant_types_supported": [
+    "authorization_code",
+    "refresh_token"
+  ],
+  "code_challenge_methods_supported": [
+    "S256"
+  ],
+  "token_endpoint_auth_methods_supported": [
+    "none"
+  ],
+  "revocation_endpoint_auth_methods_supported": [
+    "none"
+  ],
+  "authorization_response_iss_parameter_supported": true,
+  "service_documentation": "https://yawplet.com/developers/#oauth",
+  "op_policy_uri": "https://yawplet.com/privacy/",
+  "op_tos_uri": "https://yawplet.com/terms/"
+}

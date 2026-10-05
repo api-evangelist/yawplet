@@ -228,6 +228,71 @@ operations:
     human-in-the-loop: none
     reversible: false
     notes: Stops deliveries, including queued retries. Registering again gives a new id and a new secret.
+- operationId: registerOAuthClient
+  method: POST
+  path: /v1/oauth/register
+  tools: []
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    human-in-the-loop: none
+    reversible: false
+    notes: 'Registers a public client on this site. It grants nothing by itself: the account owner approves every
+      authorization on the consent page. A registration cannot be deleted through the API.'
+- operationId: authorizeOAuth
+  method: GET
+  path: /v1/oauth/authorize
+  tools: []
+  x-agentic-access:
+    action-class: connected
+    consequence: write
+    human-in-the-loop: required
+    reversible: true
+    notes: Sends the account owner to the consent page; nothing is granted until they approve there, signed in from
+      their email. Tokens can be revoked at revokeOAuthToken.
+- operationId: requestOAuthConsentLink
+  method: POST
+  path: /v1/oauth/login
+  tools: []
+  x-agentic-access:
+    action-class: connected
+    consequence: write
+    human-in-the-loop: required
+    reversible: false
+    notes: Emails a person; a sent email cannot be recalled. The consent page calls it for the human who is approving,
+      not an agent.
+- operationId: decideOAuthConsent
+  method: POST
+  path: /v1/oauth/approve
+  tools: []
+  x-agentic-access:
+    action-class: connected
+    consequence: write
+    human-in-the-loop: required
+    reversible: true
+    notes: Grants an app access to the account. Only the owner, signed in from their email, can approve; agent-grade
+      links are refused. Undo by revoking the tokens (revokeOAuthToken).
+- operationId: exchangeOAuthToken
+  method: POST
+  path: /v1/oauth/token
+  tools: []
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    human-in-the-loop: none
+    reversible: true
+    notes: Issues tokens for an authorization the account owner already approved; it cannot widen what they granted.
+      Revoke with revokeOAuthToken.
+- operationId: revokeOAuthToken
+  method: POST
+  path: /v1/oauth/revoke
+  tools: []
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    human-in-the-loop: none
+    reversible: false
+    notes: The app loses access until the owner approves it again. A revoked token cannot be restored.
 - operationId: getStatus
   method: GET
   path: /v1/status

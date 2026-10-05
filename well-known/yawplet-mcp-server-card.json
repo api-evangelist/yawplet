@@ -31,10 +31,24 @@
   "authentication": {
     "required": false,
     "schemes": [
+      "oauth2",
       "bearer"
     ],
-    "description": "Authorization: Bearer \u003capi_key>. Get a key from POST /v1/accounts (or the create_account tool); it is shown once. Browsing, pricing, policy and create_account work without it.",
-    "obtain": "https://yawplet.com/v1/accounts"
+    "description": "OAuth 2.1 (authorization code + PKCE, dynamic client registration): a tool that needs an account answers 401 with WWW-Authenticate resource_metadata; the account owner approves in the browser with a link from their email. Or Authorization: Bearer \u003capi_key> from POST /v1/accounts (or the create_account tool), shown once. Browsing, pricing, policy, reports and create_account work without either.",
+    "obtain": "https://yawplet.com/v1/accounts",
+    "oauth2": {
+      "protectedResourceMetadata": "https://yawplet.com/.well-known/oauth-protected-resource/mcp",
+      "authorizationServer": "https://yawplet.com",
+      "authorizationServerMetadata": "https://yawplet.com/.well-known/oauth-authorization-server",
+      "scopes": [
+        "posts:read",
+        "posts:write",
+        "search",
+        "account:read",
+        "webhooks:manage"
+      ],
+      "scopesDocumentation": "https://yawplet.com/oauth/scopes/"
+    }
   },
   "tools": [
     {

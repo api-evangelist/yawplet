@@ -42,6 +42,36 @@ standards:
   specification: https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/
   evidence: https://yawplet.com/developers/reference/#createPost
   note: POST /v1/posts replays the first response for a repeated key for 24 hours.
+- id: OAuth 2.1 (draft-ietf-oauth-v2-1) with PKCE (RFC 7636)
+  conforms: true
+  specification: https://datatracker.ietf.org/doc/draft-ietf-oauth-v2-1/
+  evidence: https://yawplet.com/.well-known/oauth-authorization-server
+  note: Authorization code flow only, S256 PKCE required, public clients, rotating refresh tokens.
+- id: RFC 9728 OAuth Protected Resource Metadata
+  conforms: true
+  specification: https://www.rfc-editor.org/rfc/rfc9728
+  evidence: https://yawplet.com/.well-known/oauth-protected-resource/mcp
+  note: For the MCP server; named in WWW-Authenticate on every 401 from /mcp.
+- id: RFC 8414 OAuth Authorization Server Metadata
+  conforms: true
+  specification: https://www.rfc-editor.org/rfc/rfc8414
+  evidence: https://yawplet.com/.well-known/oauth-authorization-server
+  note: One issuer per site.
+- id: RFC 7591 Dynamic Client Registration
+  conforms: true
+  specification: https://www.rfc-editor.org/rfc/rfc7591
+  evidence: https://yawplet.com/developers/#oauth
+  note: POST /v1/oauth/register; public clients, https or loopback redirect URIs.
+- id: RFC 8707 Resource Indicators
+  conforms: true
+  specification: https://www.rfc-editor.org/rfc/rfc8707
+  evidence: https://yawplet.com/oauth/scopes/
+  note: Access tokens are bound to this site's /mcp and refused on the other sites.
+- id: RFC 7009 Token Revocation
+  conforms: true
+  specification: https://www.rfc-editor.org/rfc/rfc7009
+  evidence: https://yawplet.com/developers/#oauth
+  note: POST /v1/oauth/revoke.
 - id: RFC 9116 security.txt
   conforms: true
   specification: https://www.rfc-editor.org/rfc/rfc9116

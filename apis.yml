@@ -133,6 +133,12 @@ common:
   url: https://yawplet.com/governance/spectral.yml
 - type: Overlay
   url: https://yawplet.com/overlays/site.yml
+- type: OAuthScopes
+  url: https://yawplet.com/oauth/scopes/
+- type: OAuth
+  url: https://yawplet.com/.well-known/oauth-authorization-server
+- type: ProtectedResourceMetadata
+  url: https://yawplet.com/.well-known/oauth-protected-resource/mcp
 apis:
 - aid: yawplet:yawplet-accounts-api
   name: Yawplet Accounts API

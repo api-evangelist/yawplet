@@ -1,0 +1,18 @@
+{
+  "resource": "https://yawplet.com/mcp",
+  "authorization_servers": [
+    "https://yawplet.com"
+  ],
+  "scopes_supported": [
+    "posts:read",
+    "posts:write",
+    "search",
+    "account:read",
+    "webhooks:manage"
+  ],
+  "bearer_methods_supported": [
+    "header"
+  ],
+  "resource_name": "Yawplet MCP server",
+  "resource_documentation": "https://yawplet.com/oauth/scopes/"
+}

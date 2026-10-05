@@ -6,7 +6,7 @@ source: Live GET of the named /.well-known/ path list on every host the record k
 summary:
   hosts_probed: 2
   paths_probed: 22
-  documents_served: 3
+  documents_served: 5
 hosts:
 - host: yawplet.com
   control:
@@ -23,11 +23,15 @@ hosts:
     status: 404
     standard: OpenID Connect Discovery 1.0
   - path: /.well-known/oauth-authorization-server
-    status: 404
+    status: 200
     standard: RFC 8414
+    content_type: application/json; charset=utf-8
+    file: yawplet-oauth-authorization-server.json
   - path: /.well-known/oauth-protected-resource
-    status: 404
+    status: 200
     standard: RFC 9728
+    content_type: application/json; charset=utf-8
+    file: yawplet-oauth-protected-resource.json
   - path: /.well-known/api-catalog
     status: 200
     standard: RFC 9727
