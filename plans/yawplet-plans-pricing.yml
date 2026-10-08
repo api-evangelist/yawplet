@@ -27,3 +27,22 @@ plans:
     price_text: $0.20
     price: 0.2
   billing: prepaid balance; top-ups $10, $20, $50
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  units: []
+  plans:
+  - name: Free
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods: []
+  - name: Prepaid, pay per post
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
