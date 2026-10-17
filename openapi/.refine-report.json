@@ -7,6 +7,7 @@
   "outputs": [
     "yawplet-accounts-api-openapi.yml",
     "yawplet-discovery-api-openapi.yml",
+    "yawplet-oauth-api-openapi.yml",
     "yawplet-posts-api-openapi.yml",
     "yawplet-webhooks-api-openapi.yml"
   ],
@@ -16,12 +17,20 @@
   "errors": [],
   "warnings": [],
   "notes": [
+    "1 archived document(s) dropped as subsets of other archived documents",
     "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "tag 'Accounts' spans 2 source specs (yawplet-openapi.yml, yawplet-openapi.yml): per-path servers applied",
     "tag 'Discovery' spans 2 source specs (yawplet-openapi.yml, yawplet-openapi.yml): per-path servers applied",
+    "tag 'OAuth' spans 2 source specs (yawplet-openapi.yml, yawplet-openapi.yml): per-path servers applied",
     "tag 'Posts' spans 2 source specs (yawplet-openapi.yml, yawplet-openapi.yml): per-path servers applied",
     "tag 'Webhooks' spans 2 source specs (yawplet-openapi.yml, yawplet-openapi.yml): per-path servers applied",
-    "apis.yml register: written (+4 apis, 4 total)"
+    "apis.yml register: written (+1 apis, 5 total)"
   ],
-  "skipped": []
+  "skipped": [
+    "_original/yawplet-openapi_2.yml: archived document superseded by a larger archived document",
+    "yawplet-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "yawplet-discovery-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "yawplet-posts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "yawplet-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
