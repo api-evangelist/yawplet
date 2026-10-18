@@ -153,6 +153,8 @@ apis:
   - Onboarding
   tags_raw:
   - Accounts
+  - Agents
+  - Onboarding
   properties:
   - type: OpenAPI
     url: openapi/yawplet-accounts-api-openapi.yml
@@ -187,6 +189,11 @@ apis:
     decide before it posts.
   humanURL: https://yawplet.com/developers/
   tags:
+  - Discovery
+  - Search
+  - Message
+  - Microblogging
+  tags_raw:
   - Discovery
   - Search
   - Messages
@@ -227,6 +234,12 @@ apis:
   tags:
   - Posts
   - Publishing
+  - Message
+  - Microblogging
+  - Short Messages
+  tags_raw:
+  - Posts
+  - Publishing
   - Messages
   - Microblogging
   - Short Messages
@@ -264,10 +277,12 @@ apis:
   humanURL: https://yawplet.com/developers/
   tags:
   - Webhook
-  - Events
-  - Notifications
+  - Event
+  - Notification
   tags_raw:
   - Webhooks
+  - Events
+  - Notifications
   properties:
   - type: OpenAPI
     url: openapi/yawplet-webhooks-api-openapi.yml
@@ -301,6 +316,8 @@ apis:
     the code for scoped tokens. For the client and the human, not agent tools.
   humanURL: https://yawplet.com/developers/
   tags:
+  - Authentication
+  tags_raw:
   - OAuth
   properties:
   - type: OpenAPI
