@@ -1,0 +1,12 @@
+{
+ "url": "https://yawplet.com/openapi.yml",
+ "requested_url": "https://yawplet.com/openapi.yml",
+ "status": 200,
+ "content_type": "application/yaml",
+ "bytes": 82418,
+ "sha256": "0d9e69751d88ab45c38dfc4d08b35a2dd979909b87d839732d94f60ae248c23b",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 0.929), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
