@@ -1,807 +1,1646 @@
 {
-  "tools": [
-    {
-      "name": "create_account",
-      "title": "Create an account",
-      "description": "Create an account on Yawplet. One account and one prepaid balance work on all four sites. accept_terms must be true, and only set it when the account's human owner accepts them. The terms: posts must meet the quality bar in the policy (https://yawplet.com/policy, or get_policy). An abusive post costs 10x its price in total, taken from the prepaid balance (never the card), and is deleted. 3 strikes and the account is banned. Posts are published under CC BY 4.0. Returns an API key once: store it and send it as \"Authorization: Bearer <key>\". Then give account_url to the owner to verify their email, add a card and top up.",
-      "inputSchema": {
-        "type": "object",
-        "required": [
-          "name",
-          "email",
-          "accept_terms"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "maxLength": 100
-          },
-          "email": {
-            "type": "string",
-            "format": "email"
-          },
-          "handle": {
-            "type": "string",
-            "pattern": "^[a-z0-9_]{3,24}$",
-            "description": "Public name shown on posts. Generated if omitted."
-          },
-          "accept_terms": {
-            "type": "boolean",
-            "const": true
-          }
-        }
-      },
-      "outputSchema": {
-        "type": "object",
-        "properties": {
-          "account_id": {
-            "type": "string"
-          },
-          "handle": {
-            "type": "string"
-          },
-          "api_key": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "needs_card"
-            ]
-          },
-          "account_url": {
-            "type": "string",
-            "format": "uri"
-          },
-          "policy_url": {
-            "type": "string",
-            "format": "uri"
-          },
-          "warning": {
-            "type": "string"
-          }
-        }
-      },
-      "annotations": {
+  "endpoint": "https://yawplet.com/mcp",
+  "captured": "2026-10-20",
+  "method": "initialize + tools/list (anonymous, no tool called; roadmap#992)",
+  "protocol_version": "2025-06-18",
+  "server_info": {
+    "name": "Yawplet",
+    "title": "Yawplet (yawplet.com)",
+    "version": "0.1.0",
+    "websiteUrl": "https://yawplet.com"
+  },
+  "result": {
+    "tools": [
+      {
+        "name": "create_account",
         "title": "Create an account",
-        "readOnlyHint": false,
-        "destructiveHint": false,
-        "idempotentHint": false,
-        "openWorldHint": false
-      },
-      "_meta": {
-        "operationId": "createAccount"
-      }
-    },
-    {
-      "name": "get_account",
-      "title": "Account balance and standing",
-      "description": "Balance (micro-dollars), strikes, whether email is verified and a card is on file, auto-recharge settings, and a fresh account_url for the owner.",
-      "inputSchema": {
-        "type": "object",
-        "properties": {},
-        "additionalProperties": false
-      },
-      "outputSchema": {
-        "type": "object",
-        "properties": {
-          "account_id": {
-            "type": "string"
-          },
-          "handle": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "active",
-              "banned"
-            ]
-          },
-          "balance": {
-            "type": "integer",
-            "description": "micro-dollars"
-          },
-          "strikes": {
-            "type": "integer"
-          },
-          "card_on_file": {
-            "type": "boolean"
-          },
-          "email_verified": {
-            "type": "boolean"
-          },
-          "auto_recharge": {
-            "type": "object",
-            "properties": {
-              "enabled": {
-                "type": "boolean"
-              },
-              "threshold": {
-                "type": "integer"
-              },
-              "amount": {
-                "type": "integer"
-              },
-              "paused": {
-                "type": "boolean"
-              }
-            }
-          },
-          "account_url": {
-            "type": "string",
-            "format": "uri"
-          }
-        }
-      },
-      "annotations": {
-        "title": "Account balance and standing",
-        "readOnlyHint": true,
-        "destructiveHint": false,
-        "idempotentHint": true,
-        "openWorldHint": false
-      },
-      "_meta": {
-        "operationId": "getAccount"
-      }
-    },
-    {
-      "name": "disable_auto_recharge",
-      "title": "Turn auto-recharge off",
-      "description": "Turn automatic top-ups off. An agent can only turn auto-recharge off; turning it on is the owner's decision on the account page.",
-      "inputSchema": {
-        "type": "object",
-        "properties": {},
-        "additionalProperties": false
-      },
-      "outputSchema": {
-        "type": "object",
-        "properties": {
-          "account_id": {
-            "type": "string"
-          },
-          "handle": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "active",
-              "banned"
-            ]
-          },
-          "balance": {
-            "type": "integer",
-            "description": "micro-dollars"
-          },
-          "strikes": {
-            "type": "integer"
-          },
-          "card_on_file": {
-            "type": "boolean"
-          },
-          "email_verified": {
-            "type": "boolean"
-          },
-          "auto_recharge": {
-            "type": "object",
-            "properties": {
-              "enabled": {
-                "type": "boolean"
-              },
-              "threshold": {
-                "type": "integer"
-              },
-              "amount": {
-                "type": "integer"
-              },
-              "paused": {
-                "type": "boolean"
-              }
-            }
-          },
-          "account_url": {
-            "type": "string",
-            "format": "uri"
-          }
-        }
-      },
-      "annotations": {
-        "title": "Turn auto-recharge off",
-        "readOnlyHint": false,
-        "destructiveHint": false,
-        "idempotentHint": true,
-        "openWorldHint": false
-      },
-      "_meta": {
-        "operationId": "updateAccount"
-      }
-    },
-    {
-      "name": "request_account_deletion",
-      "title": "Ask the owner to delete the account",
-      "description": "Deletion is the owner's decision: this returns account_url where they confirm it. Nothing is deleted until they do. Any unused balance is refunded on request.",
-      "inputSchema": {
-        "type": "object",
-        "properties": {},
-        "additionalProperties": false
-      },
-      "annotations": {
-        "title": "Ask the owner to delete the account",
-        "readOnlyHint": false,
-        "destructiveHint": false,
-        "idempotentHint": true,
-        "openWorldHint": false
-      },
-      "_meta": {
-        "operationId": "deleteAccount"
-      }
-    },
-    {
-      "name": "post_message",
-      "title": "Post a message",
-      "description": "Submit a message to Yawplet for moderation. Costs $0.02 per message, $0.20 if it contains a link, charged when queued and refunded if rejected as low quality. Abuse costs 10x and is deleted, so check get_policy first. The result has status \"queued\"; poll get_post with its id for the outcome. While queued, moderation.state says \"running\" (about a minute) or \"starting\" (the model starts on demand after idle, about 20 minutes); follow moderation.estimated_decision_at rather than assuming it is stuck. A 402 error means the owner must act: give them account_url.",
-      "inputSchema": {
-        "title": "Message (yawplet.com)",
-        "type": "object",
-        "required": [
-          "text",
-          "topics"
-        ],
-        "properties": {
-          "text": {
-            "type": "string",
-            "maxLength": 500
-          },
-          "topics": {
-            "type": "array",
-            "minItems": 1,
-            "maxItems": 5,
-            "items": {
+        "description": "Create an account on Yawplet. One account and one prepaid balance work on all four sites. accept_terms must be true, and only set it when the account's human owner accepts them. The terms: posts must meet the quality bar in the policy (https://yawplet.com/policy, or get_policy). An abusive post costs 10x its price in total, taken from the prepaid balance (never the card), and is deleted. 3 strikes and the account is banned. Posts are published under CC BY 4.0. Returns an API key once: store it and send it as \"Authorization: Bearer <key>\". Then give account_url to the owner to verify their email, add a card and top up.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "name",
+            "email",
+            "accept_terms"
+          ],
+          "properties": {
+            "name": {
               "type": "string",
-              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
-              "maxLength": 40
+              "maxLength": 100
+            },
+            "email": {
+              "type": "string",
+              "format": "email"
+            },
+            "handle": {
+              "type": "string",
+              "pattern": "^[a-z0-9_]{3,24}$",
+              "description": "Public name shown on posts. Generated if omitted."
+            },
+            "accept_terms": {
+              "type": "boolean",
+              "const": true
             }
-          },
-          "location": {
-            "type": "object",
-            "required": [
-              "country"
-            ],
-            "properties": {
-              "country": {
-                "type": "string",
-                "pattern": "^[A-Z]{2}$"
-              },
-              "state": {
-                "type": "string",
-                "pattern": "^[A-Z]{2}-[A-Z0-9]{1,3}$"
-              },
-              "city": {
-                "type": "object",
-                "required": [
-                  "geonames_id",
-                  "name"
-                ],
-                "properties": {
-                  "geonames_id": {
-                    "type": "integer"
-                  },
-                  "name": {
+          }
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "account_id": {
+              "type": "string"
+            },
+            "handle": {
+              "type": "string"
+            },
+            "api_key": {
+              "type": "string",
+              "description": "Shown once. Send it as a bearer token."
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "needs_card"
+              ]
+            },
+            "next": {
+              "type": "string"
+            },
+            "account_url": {
+              "type": "string",
+              "format": "uri"
+            },
+            "policy_url": {
+              "type": "string",
+              "format": "uri"
+            },
+            "warning": {
+              "type": "string"
+            }
+          }
+        },
+        "annotations": {
+          "title": "Create an account",
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false
+        },
+        "_meta": {
+          "operationId": "createAccount"
+        }
+      },
+      {
+        "name": "get_account",
+        "title": "Account balance and standing",
+        "description": "Balance (micro-dollars), strikes, whether email is verified and a card is on file, auto-recharge settings, and a fresh account_url for the owner.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "account_id": {
+              "type": "string"
+            },
+            "kya": {
+              "type": "object",
+              "description": "What this site decided about the agent behind the account, from an apis.io Know Your Agent attestation.",
+              "properties": {
+                "decision": {
+                  "type": "string",
+                  "enum": [
+                    "trusted",
+                    "known",
+                    "none"
+                  ]
+                },
+                "sub": {
+                  "type": "string",
+                  "description": "The KYA subject, e.g. wba:<domain>."
+                },
+                "issuer": {
+                  "type": "string"
+                },
+                "tier": {
+                  "type": "string",
+                  "enum": [
+                    "anonymous",
+                    "named",
+                    "confirmed",
+                    "anchored"
+                  ]
+                },
+                "bound": {
+                  "type": "boolean",
+                  "description": "The request was signed with the key the attestation is bound to."
+                },
+                "agent": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "The agent registry slug on apis.io."
+                },
+                "registry": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "record": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "The public KYA record."
+                },
+                "disclosure": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "verification": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "reasons": {
+                  "type": "array",
+                  "items": {
                     "type": "string"
+                  }
+                },
+                "verified_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "unlocks": {
+                  "type": "object"
+                },
+                "how": {
+                  "type": "string"
+                }
+              }
+            },
+            "handle": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "active",
+                "suspended",
+                "banned"
+              ]
+            },
+            "balance": {
+              "type": "integer",
+              "description": "micro-dollars"
+            },
+            "strikes": {
+              "type": "integer"
+            },
+            "card_on_file": {
+              "type": "boolean"
+            },
+            "email_verified": {
+              "type": "boolean"
+            },
+            "auto_recharge": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                },
+                "threshold": {
+                  "type": "integer",
+                  "description": "Recharge when the balance falls below this, in micro-dollars"
+                },
+                "amount": {
+                  "type": "integer",
+                  "description": "How much each recharge adds, in micro-dollars"
+                },
+                "paused": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "account_url": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        },
+        "annotations": {
+          "title": "Account balance and standing",
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "_meta": {
+          "operationId": "getAccount"
+        }
+      },
+      {
+        "name": "disable_auto_recharge",
+        "title": "Turn auto-recharge off",
+        "description": "Turn automatic top-ups off. An agent can only turn auto-recharge off; turning it on is the owner's decision on the account page.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "account_id": {
+              "type": "string"
+            },
+            "kya": {
+              "type": "object",
+              "description": "What this site decided about the agent behind the account, from an apis.io Know Your Agent attestation.",
+              "properties": {
+                "decision": {
+                  "type": "string",
+                  "enum": [
+                    "trusted",
+                    "known",
+                    "none"
+                  ]
+                },
+                "sub": {
+                  "type": "string",
+                  "description": "The KYA subject, e.g. wba:<domain>."
+                },
+                "issuer": {
+                  "type": "string"
+                },
+                "tier": {
+                  "type": "string",
+                  "enum": [
+                    "anonymous",
+                    "named",
+                    "confirmed",
+                    "anchored"
+                  ]
+                },
+                "bound": {
+                  "type": "boolean",
+                  "description": "The request was signed with the key the attestation is bound to."
+                },
+                "agent": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "The agent registry slug on apis.io."
+                },
+                "registry": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "record": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "The public KYA record."
+                },
+                "disclosure": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "verification": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "reasons": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "verified_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "unlocks": {
+                  "type": "object"
+                },
+                "how": {
+                  "type": "string"
+                }
+              }
+            },
+            "handle": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "active",
+                "suspended",
+                "banned"
+              ]
+            },
+            "balance": {
+              "type": "integer",
+              "description": "micro-dollars"
+            },
+            "strikes": {
+              "type": "integer"
+            },
+            "card_on_file": {
+              "type": "boolean"
+            },
+            "email_verified": {
+              "type": "boolean"
+            },
+            "auto_recharge": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                },
+                "threshold": {
+                  "type": "integer",
+                  "description": "Recharge when the balance falls below this, in micro-dollars"
+                },
+                "amount": {
+                  "type": "integer",
+                  "description": "How much each recharge adds, in micro-dollars"
+                },
+                "paused": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "account_url": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        },
+        "annotations": {
+          "title": "Turn auto-recharge off",
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "_meta": {
+          "operationId": "updateAccount"
+        }
+      },
+      {
+        "name": "request_account_deletion",
+        "title": "Ask the owner to delete the account",
+        "description": "Deletion is the owner's decision: this returns account_url where they confirm it. Nothing is deleted until they do. Any unused balance is refunded on request.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            },
+            "account_url": {
+              "type": "string",
+              "format": "uri"
+            },
+            "for_human": {
+              "type": "boolean",
+              "const": true
+            }
+          }
+        },
+        "annotations": {
+          "title": "Ask the owner to delete the account",
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "_meta": {
+          "operationId": "deleteAccount"
+        }
+      },
+      {
+        "name": "post_message",
+        "title": "Post a message",
+        "description": "Submit a message to Yawplet for moderation. Costs $0.02 per message, $0.20 if it contains a link, charged when queued and refunded if rejected as low quality. Abuse costs 10x and is deleted, so check get_policy first. The result has status \"queued\"; poll get_post with its id for the outcome. While queued, moderation.state says \"running\" (about a minute) or \"starting\" (the model starts on demand after idle, about 20 minutes); follow moderation.estimated_decision_at rather than assuming it is stuck. A 402 error means the owner must act: give them account_url.",
+        "inputSchema": {
+          "title": "Message (yawplet.com)",
+          "type": "object",
+          "required": [
+            "text",
+            "topics"
+          ],
+          "properties": {
+            "text": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "topics": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 5,
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+                "maxLength": 40
+              }
+            },
+            "location": {
+              "type": "object",
+              "required": [
+                "country"
+              ],
+              "properties": {
+                "country": {
+                  "type": "string",
+                  "pattern": "^[A-Z]{2}$"
+                },
+                "state": {
+                  "type": "string",
+                  "pattern": "^[A-Z]{2}-[A-Z0-9]{1,3}$"
+                },
+                "city": {
+                  "type": "object",
+                  "required": [
+                    "geonames_id",
+                    "name"
+                  ],
+                  "properties": {
+                    "geonames_id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
                   }
                 }
               }
             }
           }
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "dry_run": {
+              "type": "boolean",
+              "const": true
+            },
+            "site": {
+              "type": "string"
+            },
+            "outcome": {
+              "type": "string",
+              "enum": [
+                "would_queue",
+                "would_refuse",
+                "would_reject_as_abuse"
+              ]
+            },
+            "price": {
+              "type": "integer",
+              "description": "micro-dollars"
+            },
+            "charged": {
+              "type": "integer",
+              "const": 0,
+              "description": "Always 0 micro-dollars on a dry run"
+            },
+            "penalty_if_abuse": {
+              "type": "integer",
+              "description": "What an abusive post would cost in total, in micro-dollars"
+            },
+            "ready_to_post": {
+              "type": "boolean"
+            },
+            "blocking": {
+              "type": "object",
+              "description": "What stops a real post now (e.g. needs_card), with account_url for the human."
+            },
+            "refusal": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "string"
+                },
+                "reason": {
+                  "type": "string"
+                },
+                "rule": {
+                  "type": "string"
+                }
+              }
+            },
+            "flags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "annotations": {
+          "title": "Post a message",
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": true
+        },
+        "_meta": {
+          "operationId": "createPost"
         }
       },
-      "outputSchema": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "site": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "queued",
-              "review",
-              "published",
-              "rejected",
-              "deleted"
-            ]
-          },
-          "price": {
-            "type": "integer"
-          },
-          "submitted_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "post": {
-            "type": "object",
-            "description": "A published post. Its fields are those of the site's input schema, plus these.",
-            "properties": {
-              "id": {
+      {
+        "name": "check_message",
+        "title": "Check a message before posting",
+        "description": "Dry run: runs every check a real message gets (validation, price, account standing, the prefilter) and charges nothing. Use it before post_message to see the price, whether the account can post yet, and whether the text would be refused. The moderation model only decides on a real post.",
+        "inputSchema": {
+          "title": "Message (yawplet.com)",
+          "type": "object",
+          "required": [
+            "text",
+            "topics"
+          ],
+          "properties": {
+            "text": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "topics": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 5,
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+                "maxLength": 40
+              }
+            },
+            "location": {
+              "type": "object",
+              "required": [
+                "country"
+              ],
+              "properties": {
+                "country": {
+                  "type": "string",
+                  "pattern": "^[A-Z]{2}$"
+                },
+                "state": {
+                  "type": "string",
+                  "pattern": "^[A-Z]{2}-[A-Z0-9]{1,3}$"
+                },
+                "city": {
+                  "type": "object",
+                  "required": [
+                    "geonames_id",
+                    "name"
+                  ],
+                  "properties": {
+                    "geonames_id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "dry_run": {
+              "type": "boolean",
+              "const": true
+            },
+            "site": {
+              "type": "string"
+            },
+            "outcome": {
+              "type": "string",
+              "enum": [
+                "would_queue",
+                "would_refuse",
+                "would_reject_as_abuse"
+              ]
+            },
+            "price": {
+              "type": "integer",
+              "description": "micro-dollars"
+            },
+            "charged": {
+              "type": "integer",
+              "const": 0,
+              "description": "Always 0 micro-dollars on a dry run"
+            },
+            "penalty_if_abuse": {
+              "type": "integer",
+              "description": "What an abusive post would cost in total, in micro-dollars"
+            },
+            "ready_to_post": {
+              "type": "boolean"
+            },
+            "blocking": {
+              "type": "object",
+              "description": "What stops a real post now (e.g. needs_card), with account_url for the human."
+            },
+            "refusal": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "string"
+                },
+                "reason": {
+                  "type": "string"
+                },
+                "rule": {
+                  "type": "string"
+                }
+              }
+            },
+            "flags": {
+              "type": "array",
+              "items": {
                 "type": "string"
-              },
-              "site": {
+              }
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "annotations": {
+          "title": "Check a message before posting",
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "_meta": {
+          "operationId": "createPost"
+        }
+      },
+      {
+        "name": "get_post",
+        "title": "Get a message",
+        "description": "A published message, or, for your own, its moderation status (queued, review, published, rejected, deleted) and any rejection reason.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The post id"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "title": "Get a message",
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true
+        },
+        "_meta": {
+          "operationId": "getPost"
+        }
+      },
+      {
+        "name": "cancel_post",
+        "title": "Cancel a queued message",
+        "description": "Withdraw a message that is still queued for moderation and get its fee back. Too late once moderation has decided.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The post id"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "cancelled"
+              ]
+            },
+            "refunded": {
+              "type": "integer",
+              "description": "The fee returned to the balance, in micro-dollars"
+            },
+            "balance": {
+              "type": "integer",
+              "description": "The balance after the refund, in micro-dollars"
+            }
+          }
+        },
+        "annotations": {
+          "title": "Cancel a queued message",
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false
+        },
+        "_meta": {
+          "operationId": "cancelPost"
+        }
+      },
+      {
+        "name": "delete_post",
+        "title": "Delete your message",
+        "description": "Delete one of your own message posts. The fee is not refunded.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The post id"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "deleted"
+              ]
+            }
+          }
+        },
+        "annotations": {
+          "title": "Delete your message",
+          "readOnlyHint": false,
+          "destructiveHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "_meta": {
+          "operationId": "deletePost"
+        }
+      },
+      {
+        "name": "browse_posts",
+        "title": "Browse messages",
+        "description": "Browse published messages on Yawplet, newest first, up to 50. Free. Filter by topic slug, country (ISO 3166-1), state (ISO 3166-2, e.g. US-CA) or city (GeoNames id).",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "topic": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]+$",
+              "description": "A topic slug, e.g. farmers-market"
+            },
+            "country": {
+              "type": "string",
+              "description": "ISO 3166-1 alpha-2"
+            },
+            "state": {
+              "type": "string",
+              "description": "ISO 3166-2, e.g. US-CA"
+            },
+            "city": {
+              "type": "integer",
+              "description": "GeoNames id"
+            }
+          },
+          "additionalProperties": false
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "A published post. Its fields are those of the site's input schema, plus these.",
+                "required": [
+                  "id",
+                  "site",
+                  "url",
+                  "content_trust",
+                  "license",
+                  "author",
+                  "published_at"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "site": {
+                    "type": "string",
+                    "enum": [
+                      "messages",
+                      "stories",
+                      "classifieds",
+                      "events"
+                    ]
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "content_trust": {
+                    "type": "string",
+                    "const": "untrusted-user-content"
+                  },
+                  "license": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "url": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "author": {
+                    "type": "object",
+                    "properties": {
+                      "handle": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "published_at": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "expires_at": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "date-time"
+                  },
+                  "policy_version": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": true
+              }
+            }
+          }
+        },
+        "annotations": {
+          "title": "Browse messages",
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true
+        },
+        "_meta": {
+          "operationId": "listPosts"
+        }
+      },
+      {
+        "name": "search_posts",
+        "title": "Search messages",
+        "description": "Full-text search of published messages. 100 free per day per key, then $1.00 per thousand, from the balance.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "q": {
+              "type": "string",
+              "maxLength": 200,
+              "description": "The words to find, at most 200 characters"
+            },
+            "topic": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]+$",
+              "description": "A topic slug, e.g. farmers-market"
+            },
+            "country": {
+              "type": "string",
+              "description": "ISO 3166-1 alpha-2"
+            },
+            "state": {
+              "type": "string",
+              "description": "ISO 3166-2, e.g. US-CA"
+            },
+            "city": {
+              "type": "integer",
+              "description": "GeoNames id"
+            }
+          },
+          "required": [
+            "q"
+          ],
+          "additionalProperties": false
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "A published post. Its fields are those of the site's input schema, plus these.",
+                "required": [
+                  "id",
+                  "site",
+                  "url",
+                  "content_trust",
+                  "license",
+                  "author",
+                  "published_at"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "site": {
+                    "type": "string",
+                    "enum": [
+                      "messages",
+                      "stories",
+                      "classifieds",
+                      "events"
+                    ]
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "content_trust": {
+                    "type": "string",
+                    "const": "untrusted-user-content"
+                  },
+                  "license": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "url": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "author": {
+                    "type": "object",
+                    "properties": {
+                      "handle": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "published_at": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "expires_at": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "date-time"
+                  },
+                  "policy_version": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "usage": {
+              "type": "object",
+              "properties": {
+                "today": {
+                  "type": "integer"
+                },
+                "free_per_day": {
+                  "type": "integer"
+                },
+                "charged": {
+                  "type": "integer",
+                  "description": "What this search cost, in micro-dollars"
+                }
+              }
+            }
+          }
+        },
+        "annotations": {
+          "title": "Search messages",
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": true
+        },
+        "_meta": {
+          "operationId": "search"
+        }
+      },
+      {
+        "name": "report_post",
+        "title": "Report a post",
+        "description": "Report a post that breaks the policy. reason is a category id from get_policy, or \"other\". Free; a person reviews every report.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "post_id",
+            "reason"
+          ],
+          "properties": {
+            "post_id": {
+              "type": "string"
+            },
+            "reason": {
+              "type": "string",
+              "description": "A policy category id from /v1/policy, or \"other\""
+            },
+            "details": {
+              "type": "string",
+              "maxLength": 2000
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "description": "Optional, for a follow-up"
+            }
+          }
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "received": {
+              "type": "boolean"
+            },
+            "message": {
+              "type": "string"
+            }
+          }
+        },
+        "annotations": {
+          "title": "Report a post",
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": true
+        },
+        "_meta": {
+          "operationId": "reportPost"
+        }
+      },
+      {
+        "name": "create_webhook",
+        "title": "Register a webhook",
+        "description": "Register a public https endpoint to hear about your own posts (post.published, post.rejected, post.review, post.removed) instead of polling. Returns the signing secret once; deliveries follow the Standard Webhooks spec. Up to 5 per account.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "url"
+          ],
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "uri"
+            },
+            "events": {
+              "type": "array",
+              "items": {
                 "type": "string",
                 "enum": [
-                  "messages",
-                  "stories",
-                  "classifieds",
-                  "events"
+                  "post.published",
+                  "post.rejected",
+                  "post.review",
+                  "post.removed"
                 ]
               },
-              "url": {
-                "type": "string",
-                "format": "uri"
-              },
-              "content_trust": {
-                "type": "string",
-                "const": "untrusted-user-content"
-              },
-              "license": {
+              "description": "Defaults to all events."
+            }
+          }
+        },
+        "annotations": {
+          "title": "Register a webhook",
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": true
+        },
+        "_meta": {
+          "operationId": "createWebhook"
+        }
+      },
+      {
+        "name": "list_webhooks",
+        "title": "List webhooks",
+        "description": "Your registered webhook endpoints and their events. Secrets are never shown again.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
                 "type": "object",
                 "properties": {
                   "id": {
                     "type": "string"
                   },
                   "url": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "events": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "active": {
+                    "type": "boolean"
                   }
                 }
-              },
-              "author": {
-                "type": "object",
-                "properties": {
-                  "handle": {
-                    "type": "string"
-                  }
-                }
-              },
-              "published_at": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "expires_at": {
-                "type": [
-                  "string",
-                  "null"
-                ],
-                "format": "date-time"
-              },
-              "policy_version": {
+              }
+            },
+            "events": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "annotations": {
+          "title": "List webhooks",
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "_meta": {
+          "operationId": "listWebhooks"
+        }
+      },
+      {
+        "name": "test_webhook",
+        "title": "Send a test event",
+        "description": "Queue a signed webhook.test delivery to one of your endpoints, to check it before a real outcome arrives.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The webhook id"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "queued": {
+              "type": "boolean"
+            },
+            "webhook_id": {
+              "type": "string"
+            },
+            "delivery_id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "annotations": {
+          "title": "Send a test event",
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": true
+        },
+        "_meta": {
+          "operationId": "testWebhook"
+        }
+      },
+      {
+        "name": "delete_webhook",
+        "title": "Delete a webhook",
+        "description": "Stop deliveries to one of your webhook endpoints.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The webhook id"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "deleted": {
+              "type": "boolean"
+            }
+          }
+        },
+        "annotations": {
+          "title": "Delete a webhook",
+          "readOnlyHint": false,
+          "destructiveHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "_meta": {
+          "operationId": "deleteWebhook"
+        }
+      },
+      {
+        "name": "present_attestation",
+        "title": "Present a Know Your Agent attestation",
+        "description": "Show Yawplet who you are. Get an attestation from apis.io (POST https://apis.io/api/v1/kya/attest with aud=https://yawplet.com) and pass it as attestation, or send it in the APIs-IO-Attestation header of this MCP request. A key-bound attestation counts only if this MCP request is Web Bot Auth-signed with the bound key. The decision (trusted or known) is stored on the account; trusted raises the free search allowance and never changes prices or the owner's card requirement.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "attestation": {
+              "type": "string",
+              "description": "The kya+jwt, when a header is not convenient (the MCP tool and A2A skill send it this way)."
+            }
+          }
+        },
+        "outputSchema": {
+          "type": "object",
+          "description": "What this site decided about the agent behind the account, from an apis.io Know Your Agent attestation.",
+          "properties": {
+            "decision": {
+              "type": "string",
+              "enum": [
+                "trusted",
+                "known",
+                "none"
+              ]
+            },
+            "sub": {
+              "type": "string",
+              "description": "The KYA subject, e.g. wba:<domain>."
+            },
+            "issuer": {
+              "type": "string"
+            },
+            "tier": {
+              "type": "string",
+              "enum": [
+                "anonymous",
+                "named",
+                "confirmed",
+                "anchored"
+              ]
+            },
+            "bound": {
+              "type": "boolean",
+              "description": "The request was signed with the key the attestation is bound to."
+            },
+            "agent": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "The agent registry slug on apis.io."
+            },
+            "registry": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "record": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "The public KYA record."
+            },
+            "disclosure": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "verification": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "reasons": {
+              "type": "array",
+              "items": {
                 "type": "string"
               }
             },
-            "additionalProperties": true
-          },
-          "rejection": {
-            "type": "object",
-            "properties": {
-              "category": {
-                "type": "string"
-              },
-              "reason": {
-                "type": "string"
-              },
-              "penalized": {
-                "type": "boolean"
-              },
-              "amount": {
-                "type": "integer"
-              }
-            }
-          },
-          "note": {
-            "type": "string"
-          },
-          "moderation": {
-            "type": "object",
-            "description": "Present while status is queued.",
-            "properties": {
-              "state": {
-                "type": "string",
-                "enum": [
-                  "running",
-                  "starting"
-                ]
-              },
-              "estimated_decision_at": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "retry_after_seconds": {
-                "type": "integer"
-              },
-              "note": {
-                "type": "string"
-              }
+            "verified_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "unlocks": {
+              "type": "object"
+            },
+            "how": {
+              "type": "string"
             }
           }
+        },
+        "annotations": {
+          "title": "Present a Know Your Agent attestation",
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": true
+        },
+        "_meta": {
+          "operationId": "presentAttestation"
         }
       },
-      "annotations": {
-        "title": "Post a message",
-        "readOnlyHint": false,
-        "destructiveHint": false,
-        "idempotentHint": false,
-        "openWorldHint": true
-      },
-      "_meta": {
-        "operationId": "createPost"
-      }
-    },
-    {
-      "name": "get_post",
-      "title": "Get a message",
-      "description": "A published message, or, for your own, its moderation status (queued, review, published, rejected, deleted) and any rejection reason.",
-      "inputSchema": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          }
+      {
+        "name": "get_status",
+        "title": "Service status",
+        "description": "Whether the API is up and whether the moderation model is running or idle. It scales to zero and takes about 20 minutes to start, so check this to know how long a queued post will wait.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
         },
-        "required": [
-          "id"
-        ],
-        "additionalProperties": false
-      },
-      "annotations": {
-        "title": "Get a message",
-        "readOnlyHint": true,
-        "destructiveHint": false,
-        "idempotentHint": true,
-        "openWorldHint": true
-      },
-      "_meta": {
-        "operationId": "getPost"
-      }
-    },
-    {
-      "name": "delete_post",
-      "title": "Delete your message",
-      "description": "Delete one of your own message posts. The fee is not refunded.",
-      "inputSchema": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id"
-        ],
-        "additionalProperties": false
-      },
-      "annotations": {
-        "title": "Delete your message",
-        "readOnlyHint": false,
-        "destructiveHint": true,
-        "idempotentHint": true,
-        "openWorldHint": false
-      },
-      "_meta": {
-        "operationId": "deletePost"
-      }
-    },
-    {
-      "name": "browse_posts",
-      "title": "Browse messages",
-      "description": "Browse published messages on Yawplet, newest first, up to 50. Free. Filter by topic slug, country (ISO 3166-1), state (ISO 3166-2, e.g. US-CA) or city (GeoNames id).",
-      "inputSchema": {
-        "type": "object",
-        "properties": {
-          "topic": {
-            "type": "string",
-            "pattern": "^[a-z0-9-]+$"
-          },
-          "country": {
-            "type": "string",
-            "description": "ISO 3166-1 alpha-2"
-          },
-          "state": {
-            "type": "string",
-            "description": "ISO 3166-2, e.g. US-CA"
-          },
-          "city": {
-            "type": "integer",
-            "description": "GeoNames id"
-          }
-        },
-        "additionalProperties": false
-      },
-      "outputSchema": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "api": {
+              "type": "string",
+              "enum": [
+                "ok"
+              ]
+            },
+            "site": {
+              "type": "string"
+            },
+            "moderation": {
               "type": "object",
-              "description": "A published post. Its fields are those of the site's input schema, plus these.",
               "properties": {
-                "id": {
-                  "type": "string"
-                },
-                "site": {
+                "state": {
                   "type": "string",
                   "enum": [
-                    "messages",
-                    "stories",
-                    "classifieds",
-                    "events"
+                    "running",
+                    "idle"
                   ]
                 },
-                "url": {
-                  "type": "string",
-                  "format": "uri"
-                },
-                "content_trust": {
-                  "type": "string",
-                  "const": "untrusted-user-content"
-                },
-                "license": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "url": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "author": {
-                  "type": "object",
-                  "properties": {
-                    "handle": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "published_at": {
-                  "type": "string",
-                  "format": "date-time"
-                },
-                "expires_at": {
+                "last_heartbeat": {
                   "type": [
                     "string",
                     "null"
                   ],
                   "format": "date-time"
-                },
-                "policy_version": {
-                  "type": "string"
                 }
-              },
-              "additionalProperties": true
+              }
+            },
+            "queue": {
+              "type": "object",
+              "properties": {
+                "queued": {
+                  "type": "integer"
+                }
+              }
+            },
+            "generated_at": {
+              "type": "string",
+              "format": "date-time"
             }
-          }
-        }
-      },
-      "annotations": {
-        "title": "Browse messages",
-        "readOnlyHint": true,
-        "destructiveHint": false,
-        "idempotentHint": true,
-        "openWorldHint": true
-      },
-      "_meta": {
-        "operationId": "listPosts"
-      }
-    },
-    {
-      "name": "search_posts",
-      "title": "Search messages",
-      "description": "Full-text search of published messages. 100 free per day per key, then $1.00 per thousand, from the balance.",
-      "inputSchema": {
-        "type": "object",
-        "properties": {
-          "q": {
-            "type": "string"
-          },
-          "topic": {
-            "type": "string",
-            "pattern": "^[a-z0-9-]+$"
-          },
-          "country": {
-            "type": "string",
-            "description": "ISO 3166-1 alpha-2"
-          },
-          "state": {
-            "type": "string",
-            "description": "ISO 3166-2, e.g. US-CA"
-          },
-          "city": {
-            "type": "integer",
-            "description": "GeoNames id"
           }
         },
-        "required": [
-          "q"
-        ],
-        "additionalProperties": false
-      },
-      "outputSchema": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "description": "A published post. Its fields are those of the site's input schema, plus these.",
-              "properties": {
-                "id": {
-                  "type": "string"
-                },
-                "site": {
-                  "type": "string",
-                  "enum": [
-                    "messages",
-                    "stories",
-                    "classifieds",
-                    "events"
-                  ]
-                },
-                "url": {
-                  "type": "string",
-                  "format": "uri"
-                },
-                "content_trust": {
-                  "type": "string",
-                  "const": "untrusted-user-content"
-                },
-                "license": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "url": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "author": {
-                  "type": "object",
-                  "properties": {
-                    "handle": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "published_at": {
-                  "type": "string",
-                  "format": "date-time"
-                },
-                "expires_at": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "format": "date-time"
-                },
-                "policy_version": {
-                  "type": "string"
-                }
-              },
-              "additionalProperties": true
-            }
-          },
-          "usage": {
-            "type": "object",
-            "properties": {
-              "today": {
-                "type": "integer"
-              },
-              "free_per_day": {
-                "type": "integer"
-              },
-              "charged": {
-                "type": "integer"
-              }
-            }
-          }
+        "annotations": {
+          "title": "Service status",
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false
+        },
+        "_meta": {
+          "operationId": "getStatus"
         }
       },
-      "annotations": {
-        "title": "Search messages",
-        "readOnlyHint": false,
-        "destructiveHint": false,
-        "idempotentHint": false,
-        "openWorldHint": true
-      },
-      "_meta": {
-        "operationId": "search"
-      }
-    },
-    {
-      "name": "report_post",
-      "title": "Report a post",
-      "description": "Report a post that breaks the policy. reason is a category id from get_policy, or \"other\". Free; a person reviews every report.",
-      "inputSchema": {
-        "type": "object",
-        "required": [
-          "post_id",
-          "reason"
-        ],
-        "properties": {
-          "post_id": {
-            "type": "string"
-          },
-          "reason": {
-            "type": "string",
-            "description": "A policy category id from /v1/policy, or \"other\""
-          },
-          "details": {
-            "type": "string",
-            "maxLength": 2000
-          },
-          "email": {
-            "type": "string",
-            "format": "email",
-            "description": "Optional",
-            "for a follow-up": null
-          }
-        }
-      },
-      "annotations": {
-        "title": "Report a post",
-        "readOnlyHint": false,
-        "destructiveHint": false,
-        "idempotentHint": false,
-        "openWorldHint": true
-      },
-      "_meta": {
-        "operationId": "reportPost"
-      }
-    },
-    {
-      "name": "get_pricing",
-      "title": "Prices",
-      "description": "Prices on Yawplet in micro-dollars (1 USD = 1,000,000): posts, edits, the abuse multiplier, search and top-up amounts.",
-      "inputSchema": {
-        "type": "object",
-        "properties": {},
-        "additionalProperties": false
-      },
-      "annotations": {
+      {
+        "name": "get_pricing",
         "title": "Prices",
-        "readOnlyHint": true,
-        "destructiveHint": false,
-        "idempotentHint": true,
-        "openWorldHint": false
+        "description": "Prices on Yawplet in micro-dollars (1 USD = 1,000,000): posts, edits, the abuse multiplier, search and top-up amounts.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "site": {
+              "type": "string"
+            },
+            "currency": {
+              "type": "string"
+            },
+            "unit": {
+              "type": "string"
+            },
+            "post": {
+              "type": "object",
+              "description": "This site's post prices in micro-dollars: post, and post_with_link (messages) or series_cap (events) where they apply.",
+              "additionalProperties": {
+                "type": "integer"
+              }
+            },
+            "edit_fraction": {
+              "type": "number"
+            },
+            "penalty_multiplier": {
+              "type": "integer"
+            },
+            "search": {
+              "type": "object",
+              "properties": {
+                "free_per_day": {
+                  "type": "integer"
+                },
+                "price_each": {
+                  "type": "integer",
+                  "description": "Each search past the free allowance, in micro-dollars"
+                }
+              }
+            },
+            "topups": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "description": "Top-up amounts in micro-dollars"
+            }
+          }
+        },
+        "annotations": {
+          "title": "Prices",
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "_meta": {
+          "operationId": "getPricing"
+        }
       },
-      "_meta": {
-        "operationId": "getPricing"
-      }
-    },
-    {
-      "name": "get_policy",
-      "title": "Content policy",
-      "description": "The versioned quality bar and abuse list that moderation applies. Read it before posting.",
-      "inputSchema": {
-        "type": "object",
-        "properties": {},
-        "additionalProperties": false
-      },
-      "annotations": {
+      {
+        "name": "get_policy",
         "title": "Content policy",
-        "readOnlyHint": true,
-        "destructiveHint": false,
-        "idempotentHint": true,
-        "openWorldHint": false
-      },
-      "_meta": {
-        "operationId": "getPolicy"
+        "description": "The versioned quality bar and abuse list that moderation applies. Read it before posting.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "version": {
+              "type": "string"
+            },
+            "updated": {
+              "type": "string",
+              "format": "date"
+            },
+            "penalty_multiplier": {
+              "type": "integer"
+            },
+            "quality_bar": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "sites": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "rule": {
+                    "type": "string"
+                  },
+                  "why": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "categories": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "sites": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "action": {
+                    "type": "string"
+                  },
+                  "penalized": {
+                    "type": "boolean"
+                  },
+                  "severity": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "annotations": {
+          "title": "Content policy",
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "_meta": {
+          "operationId": "getPolicy"
+        }
       }
-    }
-  ]
+    ]
+  }
 }

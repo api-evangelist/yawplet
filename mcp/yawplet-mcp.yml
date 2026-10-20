@@ -17,8 +17,8 @@ deployment:
   endpoint: https://yawplet.com/mcp
   auth: api-key
   verified: probed
-  note: initialize, tools/list and resources/list answered 200 anonymously on 2026-09-26; tool calls that act on
-    an account take the REST API key as a Bearer token (developers page).
+  note: initialize, tools/list and resources/list answered 200 anonymously on 2026-09-26; tool calls that
+    act on an account take the REST API key as a Bearer token (developers page).
 capabilities:
 - tools
 - resources
@@ -67,3 +67,28 @@ resources:
   title: Prices
 tools_list: mcp/yawplet-mcp-tools.json
 note: tools/list response saved verbatim (result object) in mcp/yawplet-mcp-tools.json.
+tool_quality:
+  tool_count: 20
+  tokens_total: 6039
+  tokens_per_tool_median: 231
+  heavy_tools: []
+  heavy_tool_count: 0
+  params_total: 31
+  params_undescribed: 12
+  params_described_pct: 61.3
+  tools_with_undescribed_params: 5
+  tools_annotated: 20
+  annotated_pct: 100.0
+  state_changing_unhinted: []
+  tools_missing_schema: 0
+  short_descriptions: 0
+  duplicate_descriptions: 0
+  duplicate_names: 0
+  nonportable_names: []
+  output_schema_count: 18
+  token_estimate: chars/3.6 of each compact tool definition
+  source: mcp/yawplet-mcp-tools.json
+  measured: '2026-10-20'
+  scored: false
+  note: Facts from the saved tools/list capture (mcp_tool_quality.py); recorded, not scored. Checks learned
+    from Glimind's agent-readiness audit.
