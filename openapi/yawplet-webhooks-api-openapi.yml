@@ -623,3 +623,9 @@ x-agentic-access-schema:
     notes:
       type: string
       description: The specifics, in a sentence or two.
+x-provenance:
+  method: harvested
+  publisher: Yawplet
+  source: https://yawplet.com/openapi.yml
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
